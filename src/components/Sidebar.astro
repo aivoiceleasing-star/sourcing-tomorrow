@@ -1,0 +1,33 @@
+---
+import { categories } from '../data/mock';
+import NewsletterSignup from './NewsletterSignup.astro';
+---
+
+<aside class="lg:sticky lg:top-24 space-y-8">
+  <!-- Categories -->
+  <div class="card p-6">
+    <h3 class="text-sm font-semibold uppercase tracking-wider text-neutral-900 mb-4">Categories</h3>
+    <ul class="space-y-2">
+      {categories.map((cat) => (
+        <li>
+          <a
+            href={`/categories/${cat.slug}/`}
+            class="flex items-center justify-between text-sm text-neutral-600 hover:text-brand-700 transition-colors duration-200 py-1.5"
+          >
+            <span>{cat.name}</span>
+            <svg class="w-4 h-4 text-neutral-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <!-- Newsletter -->
+  <div class="card p-6">
+    <h3 class="text-sm font-semibold uppercase tracking-wider text-neutral-900 mb-4">Newsletter</h3>
+    <p class="text-sm text-neutral-500 mb-4">Get weekly procurement insights delivered to your inbox.</p>
+    <NewsletterSignup variant="inline" />
+  </div>
+</aside>

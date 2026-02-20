@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/Hero.astro';
+import ResourceCard from '../../components/ResourceCard.astro';
+import { getResources } from '../../lib/airtable';
+
+const resources = await getResources();
+---
+
+<BaseLayout
+  title="Resources"
+  description="Free procurement resources including whitepapers, guides, templates, and frameworks for sourcing professionals."
+>
+  <Hero
+    title="Resources"
+    subtitle="Whitepapers, guides, templates, and frameworks to level up your procurement practice."
+  />
+
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+    {resources.length > 0 ? (
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {resources.map((resource) => (
+          <ResourceCard
+            title={resource.title}
+            slug={resource.slug}
+            description={resource.description}
+            category={resource.category}
+            coverImage={resource.coverImage}
+          />
+        ))}
+      </div>
+    ) : (
+      <div class="py-20 text-center">
+        <svg class="mx-auto mb-4 h-12 w-12 text-neutral-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        </svg>
+        <h3 class="mb-2 text-lg font-semibold text-neutral-900">No resources yet</h3>
+        <p class="text-neutral-500">We're working on building our resource library. Check back soon.</p>
+      </div>
+    )}
+  </section>
+</BaseLayout>

@@ -1,0 +1,177 @@
+@import "tailwindcss";
+
+@theme {
+  /* Primary — Deep Teal */
+  --color-brand-50: #f0fdfa;
+  --color-brand-100: #ccfbf1;
+  --color-brand-200: #99f6e4;
+  --color-brand-300: #5eead4;
+  --color-brand-400: #2dd4bf;
+  --color-brand-500: #14b8a6;
+  --color-brand-600: #0d9488;
+  --color-brand-700: #0f766e;
+  --color-brand-800: #115e59;
+  --color-brand-900: #134e4a;
+  --color-brand-950: #042f2e;
+
+  /* Accent — Amber/Gold for CTAs and highlights */
+  --color-accent-300: #fde68a;
+  --color-accent-400: #fbbf24;
+  --color-accent-500: #f59e0b;
+  --color-accent-600: #d97706;
+
+  /* Neutral — Refined Gray */
+  --color-neutral-50: #fafbfc;
+  --color-neutral-100: #f3f4f6;
+  --color-neutral-200: #e5e7eb;
+  --color-neutral-300: #d1d5db;
+  --color-neutral-400: #9ca3af;
+  --color-neutral-500: #6b7280;
+  --color-neutral-600: #4b5563;
+  --color-neutral-700: #374151;
+  --color-neutral-800: #1f2937;
+  --color-neutral-900: #111827;
+  --color-neutral-950: #030712;
+
+  --color-success: #059669;
+  --color-warning: #d97706;
+  --color-danger: #dc2626;
+
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Merriweather', Georgia, serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-sans text-neutral-600 antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    letter-spacing: -0.025em;
+    @apply text-neutral-900;
+  }
+}
+
+@layer utilities {
+  .shadow-soft {
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.03),
+      0 4px 12px rgba(0, 0, 0, 0.04);
+  }
+
+  .shadow-elevated {
+    box-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.04),
+      0 6px 16px rgba(0, 0, 0, 0.06),
+      0 20px 48px rgba(0, 0, 0, 0.04);
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center font-semibold rounded-lg transition-colors duration-200 bg-brand-700 text-white;
+  }
+
+  .btn-primary:hover {
+    @apply bg-brand-800;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center font-semibold rounded-lg border-2 border-neutral-300 text-neutral-700 transition-colors duration-200;
+  }
+
+  .btn-secondary:hover {
+    @apply border-brand-600 text-brand-700;
+  }
+
+  .card {
+    @apply bg-white rounded-xl border border-neutral-200/60 transition-shadow duration-200;
+    box-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.04),
+      0 6px 16px rgba(0, 0, 0, 0.06);
+  }
+
+  .card:hover {
+    box-shadow:
+      0 4px 8px rgba(0, 0, 0, 0.04),
+      0 12px 32px rgba(0, 0, 0, 0.1);
+  }
+
+  .section-dark {
+    background: linear-gradient(135deg, #0c1222 0%, #111827 50%, #0f172a 100%);
+  }
+
+  .section-glow {
+    position: relative;
+  }
+
+  .section-glow::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-brand-400), transparent);
+    opacity: 0.4;
+  }
+
+  .icon-circle {
+    @apply flex items-center justify-center rounded-xl;
+    background: linear-gradient(135deg, var(--color-brand-50), var(--color-brand-100));
+  }
+
+  .prose-article {
+    font-family: var(--font-serif);
+  }
+
+  .prose-article p {
+    @apply text-neutral-600 leading-relaxed text-lg;
+    margin-bottom: 1.5em;
+  }
+
+  .prose-article h2 {
+    @apply text-2xl font-bold text-neutral-900 mt-12 mb-4;
+    font-family: var(--font-sans);
+  }
+
+  .prose-article h3 {
+    @apply text-xl font-bold text-neutral-900 mt-8 mb-3;
+    font-family: var(--font-sans);
+  }
+
+  .prose-article ul, .prose-article ol {
+    @apply pl-6 mb-6 space-y-2 text-neutral-600 text-lg;
+  }
+
+  .prose-article ul {
+    list-style-type: disc;
+  }
+
+  .prose-article ol {
+    list-style-type: decimal;
+  }
+
+  .prose-article a {
+    @apply text-brand-700 underline;
+  }
+
+  .prose-article a:hover {
+    @apply text-brand-800;
+  }
+
+  .prose-article blockquote {
+    @apply border-l-4 border-brand-300 pl-6 italic text-neutral-500 my-8;
+  }
+
+  .prose-article img {
+    @apply rounded-xl my-8;
+  }
+
+  .prose-article code {
+    @apply bg-neutral-100 px-1.5 py-0.5 rounded text-sm;
+    font-family: var(--font-sans);
+  }
+}

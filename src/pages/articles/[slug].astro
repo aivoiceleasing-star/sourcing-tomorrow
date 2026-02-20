@@ -1,0 +1,28 @@
+---
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import { getArticles } from '../../lib/airtable';
+
+export async function getStaticPaths() {
+  const articles = await getArticles();
+  return articles.map((article) => ({
+    params: { slug: article.slug },
+    props: { article },
+  }));
+}
+
+const { article } = Astro.props;
+---
+
+<ArticleLayout
+  title={article.title}
+  description={article.metaDescription || article.excerpt}
+  publishDate={article.publishDate}
+  category={article.category}
+  categorySlug={article.categorySlug}
+  author={article.author}
+  featuredImage={article.featuredImage}
+  readTime={`${article.readTime} min read`}
+  faq={article.faq}
+>
+  <Fragment set:html={article.content} />
+</ArticleLayout>

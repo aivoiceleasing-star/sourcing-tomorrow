@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Federal Spending Tracker" description="Track U.S. federal procurement spending by agency, category, and amount using data from USASpending.gov.">
+  <section class="py-20 lg:py-32">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl">
+        <a href="/tools/" class="inline-flex items-center gap-1.5 text-brand-700 hover:text-brand-800 text-sm font-medium mb-6">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+          All Tools
+        </a>
+        <h1 class="text-3xl lg:text-5xl font-extrabold text-neutral-900 mb-4">Federal Spending Tracker</h1>
+        <p class="text-xl text-neutral-500 mb-8">Explore U.S. federal procurement spending by agency, category, and fiscal year. Powered by USASpending.gov open data.</p>
+      </div>
+
+      <div class="card p-8 lg:p-12 mt-8">
+        <div class="text-center py-16">
+          <div class="icon-circle w-16 h-16 mx-auto mb-6">
+            <svg class="w-8 h-8 text-brand-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          </div>
+          <h2 class="text-2xl font-bold text-neutral-900 mb-3">Coming Soon</h2>
+          <p class="text-neutral-500 max-w-md mx-auto">The Federal Spending Tracker is currently under development. This tool will provide interactive dashboards for exploring federal procurement data from USASpending.gov.</p>
+          <a href="/newsletter/" class="btn-primary px-6 py-3 mt-8 text-white">Get Notified When It Launches</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

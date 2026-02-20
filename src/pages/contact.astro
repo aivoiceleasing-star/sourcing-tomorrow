@@ -1,0 +1,104 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+---
+
+<BaseLayout
+  title="Contact"
+  description="Get in touch with the SourcingTomorrow team. We'd love to hear from you about contributions, partnerships, or general inquiries."
+>
+  <Hero
+    title="Get in Touch"
+    subtitle="Questions, feedback, or want to contribute? We'd love to hear from you."
+  />
+
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+    <div class="grid gap-16 lg:grid-cols-2">
+      <!-- Contact Form -->
+      <div>
+        <h2 class="mb-6 text-xl font-bold text-neutral-900">Send Us a Message</h2>
+        <form action="#" method="POST" class="space-y-6">
+          <div>
+            <label for="name" class="mb-2 block text-sm font-medium text-neutral-700">Name</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              required
+              class="w-full rounded-lg border border-neutral-300 px-4 py-3 text-neutral-900 placeholder:text-neutral-400 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-brand-500"
+              placeholder="Your name"
+            />
+          </div>
+          <div>
+            <label for="email" class="mb-2 block text-sm font-medium text-neutral-700">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              class="w-full rounded-lg border border-neutral-300 px-4 py-3 text-neutral-900 placeholder:text-neutral-400 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-brand-500"
+              placeholder="you@example.com"
+            />
+          </div>
+          <div>
+            <label for="subject" class="mb-2 block text-sm font-medium text-neutral-700">Subject</label>
+            <input
+              type="text"
+              id="subject"
+              name="subject"
+              required
+              class="w-full rounded-lg border border-neutral-300 px-4 py-3 text-neutral-900 placeholder:text-neutral-400 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-brand-500"
+              placeholder="What's this about?"
+            />
+          </div>
+          <div>
+            <label for="message" class="mb-2 block text-sm font-medium text-neutral-700">Message</label>
+            <textarea
+              id="message"
+              name="message"
+              rows="5"
+              required
+              class="w-full rounded-lg border border-neutral-300 px-4 py-3 text-neutral-900 placeholder:text-neutral-400 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-brand-500"
+              placeholder="Your message..."
+            ></textarea>
+          </div>
+          <button type="submit" class="btn-primary w-full px-6 py-3 sm:w-auto">
+            Send Message
+          </button>
+        </form>
+      </div>
+
+      <!-- Sidebar Info -->
+      <div class="space-y-10">
+        <!-- Write for Us -->
+        <div class="rounded-xl border border-neutral-200 bg-neutral-50 p-8">
+          <h3 class="mb-3 text-lg font-bold text-neutral-900">Write for Us</h3>
+          <p class="mb-4 text-sm leading-relaxed text-neutral-600">
+            We're always looking for experienced procurement professionals to share their expertise.
+            If you have insights on strategic sourcing, supply chain management, procurement
+            technology, or sustainability, we'd love to hear from you.
+          </p>
+          <p class="text-sm text-neutral-600">
+            Include a brief bio, topic idea, and writing sample in your message, and select
+            "Write for Us" as the subject.
+          </p>
+        </div>
+
+        <!-- General Inquiries -->
+        <div class="rounded-xl border border-neutral-200 bg-neutral-50 p-8">
+          <h3 class="mb-3 text-lg font-bold text-neutral-900">General Inquiries</h3>
+          <p class="mb-4 text-sm leading-relaxed text-neutral-600">
+            For partnership opportunities, advertising inquiries, or general questions about
+            SourcingTomorrow, use the contact form or reach out directly.
+          </p>
+          <p class="text-sm text-neutral-600">
+            <span class="font-medium text-neutral-700">Email:</span>{' '}
+            <a href="mailto:hello@sourcingtomorrow.com" class="text-brand-700 hover:text-brand-800">
+              hello@sourcingtomorrow.com
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

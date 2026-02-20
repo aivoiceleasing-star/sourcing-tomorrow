@@ -1,0 +1,188 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  publishDate: string;
+  category: string;
+  categorySlug: string;
+  author: string;
+  featuredImage?: string;
+  readTime: string;
+  faq?: FaqItem[];
+}
+
+const {
+  title,
+  description,
+  publishDate,
+  category,
+  categorySlug,
+  author,
+  featuredImage,
+  readTime,
+  faq,
+} = Astro.props;
+
+const formattedDate = new Date(publishDate).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+// Build Article JSON-LD
+const articleJsonLd: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  datePublished: publishDate,
+  author: {
+    '@type': 'Person',
+    name: author,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'SourcingTomorrow',
+    url: 'https://sourcingtomorrow.com',
+  },
+};
+
+if (featuredImage) {
+  articleJsonLd.image = featuredImage.startsWith('http')
+    ? featuredImage
+    : `https://sourcingtomorrow.com${featuredImage}`;
+}
+
+// Build combined JSON-LD (article + optional FAQ)
+const jsonLdBlocks: Record<string, unknown>[] = [articleJsonLd];
+
+if (faq && faq.length > 0) {
+  jsonLdBlocks.push({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  });
+}
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  ogImage={featuredImage}
+  jsonLd={jsonLdBlocks}
+>
+  <article>
+    <!-- Breadcrumb -->
+    <div class="mx-auto max-w-3xl px-4 pt-8 sm:px-6 lg:px-8">
+      <a
+        href="/articles/"
+        class="group inline-flex items-center text-sm font-medium text-neutral-500 transition-colors hover:text-brand-700"
+      >
+        <svg
+          class="mr-1.5 h-4 w-4 transition-transform group-hover:-translate-x-0.5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="2"
+          stroke="currentColor"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+        </svg>
+        All Articles
+      </a>
+    </div>
+
+    <!-- Article Header -->
+    <header class="mx-auto max-w-3xl px-4 pt-6 pb-8 sm:px-6 lg:px-8">
+      <div class="mb-4 flex flex-wrap items-center gap-3 text-sm">
+        <a
+          href={`/category/${categorySlug}/`}
+          class="rounded-full bg-brand-50 px-3 py-1 font-medium text-brand-700 transition-colors hover:bg-brand-100"
+        >
+          {category}
+        </a>
+        <span class="text-neutral-400">|</span>
+        <time datetime={publishDate} class="text-neutral-500">
+          {formattedDate}
+        </time>
+        <span class="text-neutral-400">|</span>
+        <span class="text-neutral-500">{author}</span>
+        <span class="text-neutral-400">|</span>
+        <span class="text-neutral-500">{readTime}</span>
+      </div>
+
+      <h1 class="text-3xl font-extrabold leading-tight tracking-tight text-neutral-900 lg:text-5xl">
+        {title}
+      </h1>
+    </header>
+
+    <!-- Featured Image -->
+    {featuredImage && (
+      <div class="mx-auto max-w-4xl px-4 pb-10 sm:px-6 lg:px-8">
+        <img
+          src={featuredImage}
+          alt={title}
+          class="shadow-elevated w-full rounded-xl object-cover"
+          loading="eager"
+        />
+      </div>
+    )}
+
+    <!-- Article Body -->
+    <div class="prose-article mx-auto max-w-3xl px-4 pb-16 sm:px-6 lg:px-8">
+      <slot />
+    </div>
+
+    <!-- FAQ Section -->
+    {faq && faq.length > 0 && (
+      <section class="mx-auto max-w-3xl border-t border-neutral-200 px-4 pt-12 pb-16 sm:px-6 lg:px-8">
+        <h2 class="mb-8 text-2xl font-bold tracking-tight text-neutral-900">
+          Frequently Asked Questions
+        </h2>
+        <dl class="space-y-6">
+          {faq.map((item) => (
+            <div class="rounded-lg border border-neutral-200 p-6">
+              <dt class="text-lg font-semibold text-neutral-900">
+                {item.question}
+              </dt>
+              <dd class="mt-2 leading-relaxed text-neutral-600">
+                {item.answer}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+    )}
+
+    <!-- Newsletter CTA -->
+    <section class="border-t border-neutral-200 bg-neutral-50">
+      <div class="mx-auto max-w-3xl px-4 py-16 text-center sm:px-6 lg:px-8">
+        <h2 class="mb-3 text-2xl font-bold tracking-tight text-neutral-900">
+          Join the Discussion
+        </h2>
+        <p class="mx-auto mb-6 max-w-lg text-neutral-600">
+          Get procurement insights, sourcing strategies, and supply chain intelligence delivered to your inbox.
+        </p>
+        <a
+          href="/newsletter/"
+          class="btn-primary px-6 py-3 text-sm"
+        >
+          Subscribe to the Newsletter
+        </a>
+      </div>
+    </section>
+  </article>
+</BaseLayout>

@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NewsletterSignup from '../components/NewsletterSignup.astro';
+---
+
+<BaseLayout
+  title="Newsletter"
+  description="Subscribe to the SourcingTomorrow newsletter for curated procurement insights, expert analysis, and actionable strategies."
+>
+  <section class="bg-gradient-to-b from-brand-50 to-white">
+    <div class="mx-auto max-w-2xl px-4 py-20 text-center sm:px-6 lg:px-8 lg:py-32">
+      <h1 class="mb-6 text-4xl font-extrabold tracking-tight text-neutral-900 lg:text-5xl">
+        Stay Ahead of the Curve
+      </h1>
+      <p class="mx-auto mb-10 max-w-xl text-lg text-neutral-500">
+        Join thousands of procurement professionals who rely on SourcingTomorrow for the insights that matter.
+      </p>
+
+      <!-- Benefits -->
+      <ul class="mx-auto mb-12 max-w-md space-y-4 text-left">
+        <li class="flex items-start gap-3">
+          <svg class="mt-0.5 h-5 w-5 shrink-0 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+          <span class="text-neutral-700">Curated procurement news you can act on</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <svg class="mt-0.5 h-5 w-5 shrink-0 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+          <span class="text-neutral-700">Expert analysis from sourcing practitioners</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <svg class="mt-0.5 h-5 w-5 shrink-0 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+          <span class="text-neutral-700">Tools and resources to sharpen your practice</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <svg class="mt-0.5 h-5 w-5 shrink-0 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+          <span class="text-neutral-700">Community updates and upcoming events</span>
+        </li>
+      </ul>
+
+      <!-- Signup Form -->
+      <div class="mx-auto max-w-lg">
+        <NewsletterSignup variant="full" />
+      </div>
+
+      <p class="mt-6 text-xs text-neutral-400">
+        No spam, ever. Unsubscribe anytime.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

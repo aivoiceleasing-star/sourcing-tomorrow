@@ -1,0 +1,131 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FeaturedArticle from '../components/FeaturedArticle.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import NewsletterSignup from '../components/NewsletterSignup.astro';
+import CategoryBadge from '../components/CategoryBadge.astro';
+import { getFeaturedArticle, getArticles } from '../lib/airtable';
+import { categories } from '../data/mock';
+
+const featuredArticle = await getFeaturedArticle();
+const allArticles = await getArticles();
+
+const latestArticles = allArticles
+  .filter((a) => !a.featured)
+  .slice(0, 6);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'SourcingTomorrow',
+  url: 'https://sourcingtomorrow.com',
+  description: 'Procurement insights, strategic sourcing news, and supply chain intelligence for professionals.',
+  publisher: {
+    '@type': 'Organization',
+    name: 'SourcingTomorrow',
+    url: 'https://sourcingtomorrow.com',
+  },
+};
+---
+
+<BaseLayout title="Home" jsonLd={jsonLd}>
+  <!-- Hero -->
+  <section class="bg-gradient-to-b from-brand-50 to-white">
+    <div class="mx-auto max-w-4xl px-4 py-20 text-center sm:px-6 lg:px-8 lg:py-32">
+      <h1 class="mb-6 text-4xl font-extrabold tracking-tight text-neutral-900 lg:text-6xl">
+        The Future of Procurement, Today
+      </h1>
+      <p class="mx-auto mb-10 max-w-2xl text-xl text-neutral-500">
+        Insights, tools, and community for procurement professionals
+      </p>
+      <div class="mx-auto max-w-lg">
+        <NewsletterSignup variant="inline" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Article -->
+  {featuredArticle && (
+    <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+      <div class="mb-8 flex items-center justify-between">
+        <h2 class="text-2xl font-bold tracking-tight text-neutral-900">Featured</h2>
+      </div>
+      <FeaturedArticle
+        title={featuredArticle.title}
+        slug={featuredArticle.slug}
+        excerpt={featuredArticle.excerpt}
+        category={featuredArticle.category}
+        categorySlug={featuredArticle.categorySlug}
+        publishDate={featuredArticle.publishDate}
+        readTime={featuredArticle.readTime}
+      />
+    </section>
+  )}
+
+  <!-- Latest Articles -->
+  {latestArticles.length > 0 && (
+    <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+      <div class="mb-8 flex items-center justify-between">
+        <h2 class="text-2xl font-bold tracking-tight text-neutral-900">Latest Articles</h2>
+        <a
+          href="/articles/"
+          class="text-sm font-semibold text-brand-700 hover:text-brand-800 transition-colors"
+        >
+          View all &rarr;
+        </a>
+      </div>
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {latestArticles.map((article) => (
+          <ArticleCard
+            title={article.title}
+            slug={article.slug}
+            excerpt={article.excerpt}
+            category={article.category}
+            categorySlug={article.categorySlug}
+            featuredImage={article.featuredImage}
+            publishDate={article.publishDate}
+            readTime={article.readTime}
+          />
+        ))}
+      </div>
+    </section>
+  )}
+
+  <!-- Categories -->
+  <section class="border-t border-neutral-200 bg-neutral-50">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+      <div class="mb-10 text-center">
+        <h2 class="mb-3 text-2xl font-bold tracking-tight text-neutral-900">Explore by Category</h2>
+        <p class="text-neutral-500">Deep dives into every corner of modern procurement</p>
+      </div>
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {categories.map((cat) => (
+          <a
+            href={`/categories/${cat.slug}/`}
+            class="card group block p-6 transition-shadow hover:shadow-lg"
+          >
+            <h3 class="mb-2 text-lg font-bold text-neutral-900 group-hover:text-brand-700 transition-colors">
+              {cat.name}
+            </h3>
+            <p class="text-sm text-neutral-500 leading-relaxed">{cat.description}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter CTA -->
+  <section class="bg-neutral-900">
+    <div class="mx-auto max-w-3xl px-4 py-20 text-center sm:px-6 lg:px-8">
+      <h2 class="mb-4 text-3xl font-bold tracking-tight text-white">
+        Stay Ahead of the Curve
+      </h2>
+      <p class="mx-auto mb-10 max-w-xl text-neutral-400">
+        Join procurement professionals who get curated insights, expert analysis, and actionable strategies delivered weekly.
+      </p>
+      <div class="mx-auto max-w-lg">
+        <NewsletterSignup variant="full" />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

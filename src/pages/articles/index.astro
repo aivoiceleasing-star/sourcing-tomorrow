@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/Hero.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import { getArticles, getCategories } from '../../lib/airtable';
+
+const articles = await getArticles();
+const categories = getCategories();
+---
+
+<BaseLayout
+  title="Articles & Insights"
+  description="Procurement articles, strategic sourcing insights, and supply chain analysis from industry experts."
+>
+  <Hero
+    title="Articles & Insights"
+    subtitle="Expert analysis, practical strategies, and industry perspectives for procurement professionals."
+  />
+
+  <!-- Category Filter Tabs -->
+  <section class="border-b border-neutral-200">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div class="flex gap-2 overflow-x-auto py-4 scrollbar-hide">
+        <a
+          href="/articles/"
+          class="inline-flex shrink-0 items-center rounded-full bg-brand-700 px-4 py-2 text-sm font-semibold text-white transition-colors"
+        >
+          All
+        </a>
+        {categories.map((cat) => (
+          <a
+            href={`/categories/${cat.slug}/`}
+            class="inline-flex shrink-0 items-center rounded-full bg-neutral-100 px-4 py-2 text-sm font-semibold text-neutral-600 transition-colors hover:bg-brand-50 hover:text-brand-700"
+          >
+            {cat.name}
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Articles Grid -->
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+    {articles.length > 0 ? (
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {articles.map((article) => (
+          <ArticleCard
+            title={article.title}
+            slug={article.slug}
+            excerpt={article.excerpt}
+            category={article.category}
+            categorySlug={article.categorySlug}
+            featuredImage={article.featuredImage}
+            publishDate={article.publishDate}
+            readTime={article.readTime}
+          />
+        ))}
+      </div>
+    ) : (
+      <div class="py-20 text-center">
+        <svg class="mx-auto mb-4 h-12 w-12 text-neutral-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+        </svg>
+        <h3 class="mb-2 text-lg font-semibold text-neutral-900">No articles yet</h3>
+        <p class="text-neutral-500">Check back soon for procurement insights and analysis.</p>
+      </div>
+    )}
+  </section>
+</BaseLayout>

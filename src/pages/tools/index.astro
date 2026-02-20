@@ -1,0 +1,112 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/Hero.astro';
+---
+
+<BaseLayout
+  title="Procurement Tools"
+  description="Free data-driven procurement tools. Track federal spending, find government opportunities, and benchmark labor rates."
+>
+  <Hero
+    title="Procurement Tools"
+    subtitle="Free, data-driven tools built for sourcing professionals. Powered by public government datasets."
+  />
+
+  <!-- Tool Cards Grid -->
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      <!-- Federal Spending Tracker -->
+      <a
+        href="/tools/federal-spending/"
+        class="card group block p-8 text-center transition-shadow hover:shadow-lg"
+      >
+        <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-brand-50 transition-colors group-hover:bg-brand-100">
+          <svg class="h-8 w-8 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <h3 class="mb-2 text-lg font-bold text-neutral-900 group-hover:text-brand-700 transition-colors">
+          Federal Spending Tracker
+        </h3>
+        <p class="mb-6 text-sm leading-relaxed text-neutral-500">
+          Explore and analyze U.S. federal contract spending data from USASpending.gov. Track agency budgets, top contractors, and spending trends.
+        </p>
+        <span class="inline-flex items-center gap-1 text-sm font-semibold text-brand-700 transition-all group-hover:gap-2">
+          Explore tool
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </span>
+      </a>
+
+      <!-- Government Opportunities -->
+      <a
+        href="/tools/opportunities/"
+        class="card group block p-8 text-center transition-shadow hover:shadow-lg"
+      >
+        <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-brand-50 transition-colors group-hover:bg-brand-100">
+          <svg class="h-8 w-8 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+        <h3 class="mb-2 text-lg font-bold text-neutral-900 group-hover:text-brand-700 transition-colors">
+          Government Opportunities
+        </h3>
+        <p class="mb-6 text-sm leading-relaxed text-neutral-500">
+          Search and filter active federal procurement opportunities from SAM.gov. Find contracts, grants, and solicitations relevant to your business.
+        </p>
+        <span class="inline-flex items-center gap-1 text-sm font-semibold text-brand-700 transition-all group-hover:gap-2">
+          Explore tool
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </span>
+      </a>
+
+      <!-- Labor Rate Benchmarks -->
+      <a
+        href="/tools/labor-rates/"
+        class="card group block p-8 text-center transition-shadow hover:shadow-lg"
+      >
+        <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-brand-50 transition-colors group-hover:bg-brand-100">
+          <svg class="h-8 w-8 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+          </svg>
+        </div>
+        <h3 class="mb-2 text-lg font-bold text-neutral-900 group-hover:text-brand-700 transition-colors">
+          Labor Rate Benchmarks
+        </h3>
+        <p class="mb-6 text-sm leading-relaxed text-neutral-500">
+          Compare labor rates across roles and regions using GSA CALC data. Benchmark your pricing against government contract rates.
+        </p>
+        <span class="inline-flex items-center gap-1 text-sm font-semibold text-brand-700 transition-all group-hover:gap-2">
+          Explore tool
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Coming Soon -->
+  <section class="border-t border-neutral-200 bg-neutral-50">
+    <div class="mx-auto max-w-3xl px-4 py-16 text-center sm:px-6 lg:px-8">
+      <h2 class="mb-4 text-xl font-bold tracking-tight text-neutral-900">More Tools Coming Soon</h2>
+      <p class="mx-auto max-w-xl text-neutral-500">
+        We're building additional procurement tools including supplier diversity dashboards,
+        contract vehicle comparisons, and market intelligence feeds. Subscribe to our newsletter
+        to be the first to know when new tools launch.
+      </p>
+      <a
+        href="/newsletter/"
+        class="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-brand-700 hover:text-brand-800 transition-colors"
+      >
+        Subscribe for updates
+        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </a>
+    </div>
+  </section>
+</BaseLayout>

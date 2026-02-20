@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import { categories } from '../data/mock';
+---
+
+<BaseLayout
+  title="About"
+  description="SourcingTomorrow exists to equip procurement professionals with the insights, tools, and community they need to succeed."
+>
+  <Hero
+    title="About SourcingTomorrow"
+    subtitle="Equipping procurement professionals with the insights, tools, and community to lead the future of sourcing."
+  />
+
+  <!-- Mission -->
+  <section class="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
+    <h2 class="mb-6 text-2xl font-bold tracking-tight text-neutral-900">Our Mission</h2>
+    <div class="space-y-4 text-lg leading-relaxed text-neutral-600">
+      <p>
+        SourcingTomorrow exists to equip procurement professionals with the insights, tools, and
+        community they need to navigate an increasingly complex sourcing landscape. Whether you're
+        managing a multi-billion-dollar supply chain or building a procurement function from scratch,
+        we're here to help you make better decisions faster.
+      </p>
+      <p>
+        We believe procurement is one of the most strategically important functions in any
+        organization, and the professionals who do this work deserve world-class resources. That's
+        what we're building.
+      </p>
+    </div>
+  </section>
+
+  <!-- What We Cover -->
+  <section class="border-t border-neutral-200 bg-neutral-50">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+      <h2 class="mb-10 text-center text-2xl font-bold tracking-tight text-neutral-900">
+        What We Cover
+      </h2>
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {categories.map((cat) => (
+          <a
+            href={`/categories/${cat.slug}/`}
+            class="rounded-lg bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
+          >
+            <h3 class="mb-2 text-lg font-bold text-neutral-900">{cat.name}</h3>
+            <p class="text-sm leading-relaxed text-neutral-500">{cat.description}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Write for Us CTA -->
+  <section class="border-t border-neutral-200">
+    <div class="mx-auto max-w-3xl px-4 py-20 text-center sm:px-6 lg:px-8">
+      <h2 class="mb-4 text-2xl font-bold tracking-tight text-neutral-900">Write for Us</h2>
+      <p class="mx-auto mb-8 max-w-xl text-lg text-neutral-500">
+        Are you a procurement professional with insights to share? We're always looking for
+        experienced practitioners to contribute articles, case studies, and expert perspectives.
+      </p>
+      <a
+        href="/contact/"
+        class="btn-primary inline-flex items-center gap-2 px-6 py-3 text-sm"
+      >
+        Get in Touch
+        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </a>
+    </div>
+  </section>
+</BaseLayout>
