@@ -80,6 +80,15 @@ const resolvedOgImage = ogImage.startsWith('http')
         set:html={JSON.stringify(jsonLd)}
       />
     )}
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T43GMSNJWK"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-T43GMSNJWK');
+    </script>
   </head>
 
   <body class="flex min-h-screen flex-col bg-white">

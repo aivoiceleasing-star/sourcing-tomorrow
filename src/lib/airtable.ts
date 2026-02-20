@@ -1,7 +1,5 @@
 /**
- * Airtable API Client + Content Layer
- *
- * Fetches from Airtable when env vars are set, falls back to mock data for local dev.
+ * Content Layer — Three-tier fallback: DB > Airtable > Mock
  */
 
 import type { Article, Resource, Category } from '../data/mock';
@@ -10,12 +8,21 @@ import {
   resources as mockResources,
   categories as mockCategories,
 } from '../data/mock';
+import { isDbConfigured } from './db';
+import {
+  dbGetArticles,
+  dbGetArticleBySlug,
+  dbGetArticlesByCategory,
+  dbGetFeaturedArticle,
+  dbGetResources,
+  dbGetCategories,
+} from './queries';
 
 const AIRTABLE_API_KEY = import.meta.env.AIRTABLE_API_KEY;
 const AIRTABLE_BASE_ID = import.meta.env.AIRTABLE_BASE_ID;
 const BASE_URL = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}`;
 
-const isConfigured = !!(AIRTABLE_API_KEY && AIRTABLE_BASE_ID);
+const isAirtableConfigured = !!(AIRTABLE_API_KEY && AIRTABLE_BASE_ID);
 
 interface AirtableRecord<T> {
   id: string;
@@ -33,7 +40,7 @@ async function fetchTable<T>(
   filterFormula?: string,
   sort?: { field: string; direction: 'asc' | 'desc' }[]
 ): Promise<AirtableRecord<T>[]> {
-  if (!isConfigured) return [];
+  if (!isAirtableConfigured) return [];
 
   const params = new URLSearchParams();
   if (filterFormula) params.set('filterByFormula', filterFormula);
@@ -111,40 +118,94 @@ function transformResource(record: AirtableRecord<any>): Resource {
   };
 }
 
-// --- Public API ---
+// --- Public API (DB > Airtable > Mock) ---
 
 export async function getArticles(): Promise<Article[]> {
-  if (!isConfigured) return mockArticles;
-  const records = await fetchTable('Articles', '{Status} = "Published"', [
-    { field: 'Publish Date', direction: 'desc' },
-  ]);
-  return records.length > 0 ? records.map(transformArticle) : mockArticles;
+  if (isDbConfigured) {
+    try {
+      const articles = await dbGetArticles();
+      if (articles.length > 0) return articles;
+    } catch (e) {
+      console.error('DB error, falling back:', e);
+    }
+  }
+  if (isAirtableConfigured) {
+    const records = await fetchTable('Articles', '{Status} = "Published"', [
+      { field: 'Publish Date', direction: 'desc' },
+    ]);
+    if (records.length > 0) return records.map(transformArticle);
+  }
+  return mockArticles;
 }
 
 export async function getArticleBySlug(slug: string): Promise<Article | null> {
-  if (!isConfigured) return mockArticles.find(a => a.slug === slug) || null;
-  const records = await fetchTable('Articles', `{Slug} = "${slug}"`);
-  return records.length > 0 ? transformArticle(records[0]) : null;
+  if (isDbConfigured) {
+    try {
+      const article = await dbGetArticleBySlug(slug);
+      if (article) return article;
+    } catch (e) {
+      console.error('DB error, falling back:', e);
+    }
+  }
+  if (isAirtableConfigured) {
+    const records = await fetchTable('Articles', `{Slug} = "${slug}"`);
+    if (records.length > 0) return transformArticle(records[0]);
+  }
+  return mockArticles.find(a => a.slug === slug) || null;
 }
 
 export async function getArticlesByCategory(categorySlug: string): Promise<Article[]> {
+  if (isDbConfigured) {
+    try {
+      const articles = await dbGetArticlesByCategory(categorySlug);
+      if (articles.length > 0) return articles;
+    } catch (e) {
+      console.error('DB error, falling back:', e);
+    }
+  }
   const allArticles = await getArticles();
   return allArticles.filter(a => a.categorySlug === categorySlug);
 }
 
 export async function getFeaturedArticle(): Promise<Article | null> {
+  if (isDbConfigured) {
+    try {
+      const article = await dbGetFeaturedArticle();
+      if (article) return article;
+    } catch (e) {
+      console.error('DB error, falling back:', e);
+    }
+  }
   const allArticles = await getArticles();
   return allArticles.find(a => a.featured) || allArticles[0] || null;
 }
 
 export async function getResources(): Promise<Resource[]> {
-  if (!isConfigured) return mockResources;
-  const records = await fetchTable('Resources', '{Status} = "Published"', [
-    { field: 'Publish Date', direction: 'desc' },
-  ]);
-  return records.length > 0 ? records.map(transformResource) : mockResources;
+  if (isDbConfigured) {
+    try {
+      const resources = await dbGetResources();
+      if (resources.length > 0) return resources;
+    } catch (e) {
+      console.error('DB error, falling back:', e);
+    }
+  }
+  if (isAirtableConfigured) {
+    const records = await fetchTable('Resources', '{Status} = "Published"', [
+      { field: 'Publish Date', direction: 'desc' },
+    ]);
+    if (records.length > 0) return records.map(transformResource);
+  }
+  return mockResources;
 }
 
-export function getCategories(): Category[] {
+export async function getCategories(): Promise<Category[]> {
+  if (isDbConfigured) {
+    try {
+      const categories = await dbGetCategories();
+      if (categories.length > 0) return categories;
+    } catch (e) {
+      console.error('DB error, falling back:', e);
+    }
+  }
   return mockCategories;
 }

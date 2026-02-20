@@ -1,0 +1,8 @@
+---
+export const prerender = false;
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import SubscribersTable from '../../../components/admin/SubscribersTable';
+---
+<AdminLayout title="Newsletter Subscribers">
+  <SubscribersTable client:load />
+</AdminLayout>

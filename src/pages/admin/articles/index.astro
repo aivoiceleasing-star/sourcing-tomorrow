@@ -1,0 +1,8 @@
+---
+export const prerender = false;
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import ArticlesManager from '../../../components/admin/ArticlesManager';
+---
+<AdminLayout title="Articles">
+  <ArticlesManager client:load />
+</AdminLayout>

@@ -5,7 +5,7 @@ import ArticleCard from '../../components/ArticleCard.astro';
 import { getArticles, getCategories } from '../../lib/airtable';
 
 const articles = await getArticles();
-const categories = getCategories();
+const categories = await getCategories();
 ---
 
 <BaseLayout

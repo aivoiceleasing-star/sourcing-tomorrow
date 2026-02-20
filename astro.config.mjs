@@ -10,6 +10,9 @@ export default defineConfig({
   output: 'static',
   adapter: vercel(),
   integrations: [react(), sitemap()],
+  security: {
+    checkOrigin: false,
+  },
   vite: {
     plugins: [tailwindcss()],
   },

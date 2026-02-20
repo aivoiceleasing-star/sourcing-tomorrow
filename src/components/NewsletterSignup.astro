@@ -4,6 +4,9 @@ interface Props {
 }
 
 const { variant = 'inline' } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+const formId = `nl-form-${uid}`;
+const statusId = `nl-status-${uid}`;
 ---
 
 {variant === 'full' ? (
@@ -12,7 +15,7 @@ const { variant = 'inline' } = Astro.props;
     <p class="text-neutral-500 mb-6">
       Get the latest procurement insights, strategies, and industry analysis delivered to your inbox every week.
     </p>
-    <form action="#" method="POST" class="flex flex-col sm:flex-row gap-3">
+    <form id={formId} class="flex flex-col sm:flex-row gap-3">
       <input
         type="email"
         name="email"
@@ -24,18 +27,51 @@ const { variant = 'inline' } = Astro.props;
         Subscribe
       </button>
     </form>
+    <div id={statusId} class="hidden mt-3"></div>
   </div>
 ) : (
-  <form action="#" method="POST" class="flex flex-col sm:flex-row gap-3">
-    <input
-      type="email"
-      name="email"
-      placeholder="Enter your email"
-      required
-      class="flex-1 px-4 py-3 rounded-lg border border-neutral-300 text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
-    />
-    <button type="submit" class="btn-primary px-6 py-3">
-      Subscribe
-    </button>
-  </form>
+  <div>
+    <form id={formId} class="flex flex-col sm:flex-row gap-3">
+      <input
+        type="email"
+        name="email"
+        placeholder="Enter your email"
+        required
+        class="flex-1 px-4 py-3 rounded-lg border border-neutral-300 text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
+      />
+      <button type="submit" class="btn-primary px-6 py-3">
+        Subscribe
+      </button>
+    </form>
+    <div id={statusId} class="hidden mt-3"></div>
+  </div>
 )}
+
+<script is:inline define:vars={{ formId, statusId }}>
+  document.getElementById(formId)?.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    var form = e.target;
+    var status = document.getElementById(statusId);
+    var btn = form.querySelector('button[type="submit"]');
+    var origText = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Subscribing...';
+    try {
+      var res = await fetch('/api/newsletter', { method: 'POST', body: new FormData(form) });
+      var data = await res.json();
+      if (data.success) {
+        status.className = 'mt-3 p-3 rounded-lg bg-green-50 text-green-700 text-sm font-medium';
+        status.textContent = "You're subscribed! Check your inbox.";
+        form.reset();
+      } else {
+        throw new Error(data.error || 'Unknown error');
+      }
+    } catch (err) {
+      status.className = 'mt-3 p-3 rounded-lg bg-red-50 text-red-700 text-sm font-medium';
+      status.textContent = 'Something went wrong. Please try again.';
+    }
+    status.classList.remove('hidden');
+    btn.disabled = false;
+    btn.textContent = origText;
+  });
+</script>
