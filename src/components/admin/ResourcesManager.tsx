@@ -21,6 +21,7 @@ export default function ResourcesManager() {
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<any>(null);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     fetch('/api/resources').then(r => r.json()).then(data => { setItems(Array.isArray(data) ? data : []); setLoading(false); });
@@ -100,8 +101,33 @@ export default function ResourcesManager() {
           </div>
         </div>
         <div>
-          <label className="block text-sm font-medium text-neutral-700 mb-1">Cover Image URL</label>
-          <input value={editing.cover_image} onChange={e => setEditing({ ...editing, cover_image: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" />
+          <label className="block text-sm font-medium text-neutral-700 mb-1">Cover Image</label>
+          {editing.cover_image && (
+            <div className="mb-2 relative inline-block">
+              <img src={editing.cover_image} alt="Preview" className="h-32 rounded-lg border object-cover" />
+              <button onClick={() => setEditing({ ...editing, cover_image: '' })} className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center hover:bg-red-600">x</button>
+            </div>
+          )}
+          <div className="flex gap-2">
+            <input value={editing.cover_image} onChange={e => setEditing({ ...editing, cover_image: e.target.value })} placeholder="Paste URL or upload" className="flex-1 px-3 py-2 border rounded-lg text-sm" />
+            <label className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold cursor-pointer transition-colors ${uploading ? 'bg-neutral-200 text-neutral-400' : 'bg-teal-50 text-teal-700 hover:bg-teal-100'}`}>
+              {uploading ? 'Uploading...' : 'Upload'}
+              <input type="file" accept="image/*" className="hidden" disabled={uploading} onChange={async (e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+                setUploading(true);
+                const form = new FormData();
+                form.append('file', file);
+                try {
+                  const res = await fetch('/api/upload', { method: 'POST', body: form });
+                  const data = await res.json();
+                  if (data.url) setEditing((prev: any) => ({ ...prev, cover_image: data.url }));
+                } catch {}
+                setUploading(false);
+                e.target.value = '';
+              }} />
+            </label>
+          </div>
         </div>
         <div>
           <label className="block text-sm font-medium text-neutral-700 mb-1">Download URL</label>
