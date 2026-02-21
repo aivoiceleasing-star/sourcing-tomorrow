@@ -1,0 +1,9 @@
+---
+export const prerender = false;
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import SiteSettingsManager from '../../../components/admin/SiteSettingsManager.tsx';
+---
+
+<AdminLayout title="Site Settings">
+  <SiteSettingsManager client:load />
+</AdminLayout>

@@ -16,6 +16,7 @@ import {
   dbGetFeaturedArticle,
   dbGetResources,
   dbGetCategories,
+  dbGetSiteSettings,
 } from './queries';
 
 const AIRTABLE_API_KEY = import.meta.env.AIRTABLE_API_KEY;
@@ -208,4 +209,26 @@ export async function getCategories(): Promise<Category[]> {
     }
   }
   return mockCategories;
+}
+
+const defaultSettings: Record<string, string> = {
+  hero_title: 'The Future of Procurement, Today',
+  hero_subtitle: 'Insights, tools, and community for procurement professionals',
+  hero_image: '',
+  hero_overlay_opacity: '0.6',
+  hero_show_newsletter: 'true',
+  cta_title: 'Stay Ahead of the Curve',
+  cta_subtitle: 'Join procurement professionals who get curated insights, expert analysis, and actionable strategies delivered weekly.',
+};
+
+export async function getSiteSettings(section?: string): Promise<Record<string, string>> {
+  if (isDbConfigured) {
+    try {
+      const settings = await dbGetSiteSettings(section);
+      if (Object.keys(settings).length > 0) return { ...defaultSettings, ...settings };
+    } catch (e) {
+      console.error('DB error for site settings, using defaults:', e);
+    }
+  }
+  return defaultSettings;
 }

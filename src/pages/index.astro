@@ -4,11 +4,12 @@ import FeaturedArticle from '../components/FeaturedArticle.astro';
 import ArticleCard from '../components/ArticleCard.astro';
 import NewsletterSignup from '../components/NewsletterSignup.astro';
 import CategoryBadge from '../components/CategoryBadge.astro';
-import { getFeaturedArticle, getArticles } from '../lib/airtable';
+import { getFeaturedArticle, getArticles, getSiteSettings } from '../lib/airtable';
 import { categories } from '../data/mock';
 
 const featuredArticle = await getFeaturedArticle();
 const allArticles = await getArticles();
+const settings = await getSiteSettings();
 
 const latestArticles = allArticles
   .filter((a) => !a.featured && a.title)
@@ -30,19 +31,46 @@ const jsonLd = {
 
 <BaseLayout title="Home" jsonLd={jsonLd}>
   <!-- Hero -->
-  <section class="bg-gradient-to-b from-brand-50 to-white">
-    <div class="mx-auto max-w-4xl px-4 py-20 text-center sm:px-6 lg:px-8 lg:py-32">
-      <h1 class="mb-6 text-4xl font-extrabold tracking-tight text-neutral-900 lg:text-6xl">
-        The Future of Procurement, Today
-      </h1>
-      <p class="mx-auto mb-10 max-w-2xl text-xl text-neutral-500">
-        Insights, tools, and community for procurement professionals
-      </p>
-      <div class="mx-auto max-w-lg">
-        <NewsletterSignup variant="inline" />
+  {settings.hero_image ? (
+    <section class="relative overflow-hidden">
+      <img
+        src={settings.hero_image}
+        alt=""
+        class="absolute inset-0 h-full w-full object-cover"
+        loading="eager"
+      />
+      <div class="absolute inset-0 bg-neutral-900" style={`opacity: ${settings.hero_overlay_opacity || '0.6'}`}></div>
+      <div class="relative mx-auto max-w-4xl px-4 py-24 text-center sm:px-6 lg:px-8 lg:py-36">
+        <h1 class="mb-6 text-4xl font-extrabold tracking-tight text-white lg:text-6xl drop-shadow-lg">
+          {settings.hero_title}
+        </h1>
+        <p class="mx-auto mb-10 max-w-2xl text-xl text-neutral-200">
+          {settings.hero_subtitle}
+        </p>
+        {settings.hero_show_newsletter !== 'false' && (
+          <div class="mx-auto max-w-lg">
+            <NewsletterSignup variant="inline" />
+          </div>
+        )}
       </div>
-    </div>
-  </section>
+    </section>
+  ) : (
+    <section class="bg-gradient-to-b from-brand-50 to-white">
+      <div class="mx-auto max-w-4xl px-4 py-20 text-center sm:px-6 lg:px-8 lg:py-32">
+        <h1 class="mb-6 text-4xl font-extrabold tracking-tight text-neutral-900 lg:text-6xl">
+          {settings.hero_title}
+        </h1>
+        <p class="mx-auto mb-10 max-w-2xl text-xl text-neutral-500">
+          {settings.hero_subtitle}
+        </p>
+        {settings.hero_show_newsletter !== 'false' && (
+          <div class="mx-auto max-w-lg">
+            <NewsletterSignup variant="inline" />
+          </div>
+        )}
+      </div>
+    </section>
+  )}
 
   <!-- Featured Article -->
   {featuredArticle && (
@@ -118,10 +146,10 @@ const jsonLd = {
   <section class="bg-neutral-900">
     <div class="mx-auto max-w-3xl px-4 py-20 text-center sm:px-6 lg:px-8">
       <h2 class="mb-4 text-3xl font-bold tracking-tight text-white">
-        Stay Ahead of the Curve
+        {settings.cta_title}
       </h2>
       <p class="mx-auto mb-10 max-w-xl text-neutral-400">
-        Join procurement professionals who get curated insights, expert analysis, and actionable strategies delivered weekly.
+        {settings.cta_subtitle}
       </p>
       <div class="mx-auto max-w-lg">
         <NewsletterSignup variant="full" />

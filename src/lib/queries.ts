@@ -84,3 +84,13 @@ export async function dbGetCategories(): Promise<Category[]> {
   const rows = await sql`SELECT * FROM categories ORDER BY name`;
   return rows.map(rowToCategory);
 }
+
+export async function dbGetSiteSettings(section?: string): Promise<Record<string, string>> {
+  const sql = getDb();
+  const rows = section
+    ? await sql`SELECT key, value FROM site_settings WHERE section = ${section}`
+    : await sql`SELECT key, value FROM site_settings`;
+  const map: Record<string, string> = {};
+  for (const r of rows) map[r.key] = r.value || '';
+  return map;
+}

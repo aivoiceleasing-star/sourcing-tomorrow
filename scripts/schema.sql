@@ -67,3 +67,15 @@ CREATE TABLE IF NOT EXISTS newsletter_subscribers (
                 CHECK (status IN ('active', 'unsubscribed')),
   subscribed_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+CREATE TABLE IF NOT EXISTS site_settings (
+  id         SERIAL PRIMARY KEY,
+  key        TEXT NOT NULL UNIQUE,
+  value      TEXT DEFAULT '',
+  value_type TEXT DEFAULT 'text'
+             CHECK (value_type IN ('text', 'textarea', 'image', 'html', 'color')),
+  label      TEXT DEFAULT '',
+  section    TEXT DEFAULT 'general',
+  sort_order INTEGER DEFAULT 0,
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
