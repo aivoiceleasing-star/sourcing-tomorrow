@@ -38,15 +38,31 @@ export default function ResourcesManager() {
   async function save() {
     if (!editing || !editing.title || !editing.slug) return;
     setSaving(true);
-    if (editing.id) {
-      await fetch(`/api/resources/${editing.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(editing) });
-      setItems(items.map(i => i.id === editing.id ? { ...i, ...editing } : i));
-    } else {
-      const res = await fetch('/api/resources', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(editing) });
-      const { id } = await res.json();
-      setItems([{ ...editing, id }, ...items]);
+    try {
+      if (editing.id) {
+        const res = await fetch(`/api/resources/${editing.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(editing) });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({ error: 'Save failed' }));
+          alert(err.error || `Save failed (${res.status})`);
+          setSaving(false);
+          return;
+        }
+        setItems(items.map(i => i.id === editing.id ? { ...i, ...editing } : i));
+      } else {
+        const res = await fetch('/api/resources', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(editing) });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({ error: 'Save failed' }));
+          alert(err.error || `Save failed (${res.status})`);
+          setSaving(false);
+          return;
+        }
+        const { id } = await res.json();
+        setItems([{ ...editing, id }, ...items]);
+      }
+      setEditing(null);
+    } catch (e: any) {
+      alert('Save failed: ' + (e.message || 'Unknown error'));
     }
-    setEditing(null);
     setSaving(false);
   }
 

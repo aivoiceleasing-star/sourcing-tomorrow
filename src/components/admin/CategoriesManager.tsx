@@ -22,15 +22,31 @@ export default function CategoriesManager() {
   async function save() {
     if (!editing || !editing.name || !editing.slug) return;
     setSaving(true);
-    if (editing.id) {
-      await fetch(`/api/categories/${editing.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(editing) });
-      setItems(items.map(i => i.id === editing.id ? { ...i, ...editing } : i));
-    } else {
-      const res = await fetch('/api/categories', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(editing) });
-      const { id } = await res.json();
-      setItems([...items, { ...editing, id }]);
+    try {
+      if (editing.id) {
+        const res = await fetch(`/api/categories/${editing.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(editing) });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({ error: 'Save failed' }));
+          alert(err.error || `Save failed (${res.status})`);
+          setSaving(false);
+          return;
+        }
+        setItems(items.map(i => i.id === editing.id ? { ...i, ...editing } : i));
+      } else {
+        const res = await fetch('/api/categories', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(editing) });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({ error: 'Save failed' }));
+          alert(err.error || `Save failed (${res.status})`);
+          setSaving(false);
+          return;
+        }
+        const { id } = await res.json();
+        setItems([...items, { ...editing, id }]);
+      }
+      setEditing(null);
+    } catch (e: any) {
+      alert('Save failed: ' + (e.message || 'Unknown error'));
     }
-    setEditing(null);
     setSaving(false);
   }
 
