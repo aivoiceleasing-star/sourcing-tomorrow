@@ -49,7 +49,7 @@ function rowToCategory(r: any): Category {
 
 export async function dbGetArticles(): Promise<Article[]> {
   const sql = getDb();
-  const rows = await sql`SELECT * FROM articles WHERE status = 'published' ORDER BY publish_date DESC`;
+  const rows = await sql`SELECT * FROM articles WHERE status = 'published' AND title != '' ORDER BY publish_date DESC`;
   return rows.map(rowToArticle);
 }
 
