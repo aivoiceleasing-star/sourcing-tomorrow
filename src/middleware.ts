@@ -1,6 +1,12 @@
 import { defineMiddleware } from 'astro:middleware';
 import { verifySessionToken, COOKIE_NAME } from './lib/auth';
 
+function verifyApiKey(request: Request): boolean {
+  const apiKey = request.headers.get('X-API-Key');
+  const secret = import.meta.env.API_SECRET_KEY || process.env.API_SECRET_KEY;
+  return !!(apiKey && secret && apiKey === secret);
+}
+
 export const onRequest = defineMiddleware(async (context, next) => {
   const { pathname } = context.url;
 
@@ -10,6 +16,12 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
   if (!isProtected) return next();
 
+  // API key auth (for n8n programmatic access)
+  if (pathname.startsWith('/api/') && verifyApiKey(context.request)) {
+    return next();
+  }
+
+  // Cookie auth (for admin panel browser access)
   const token = context.cookies.get(COOKIE_NAME)?.value;
 
   if (!token || !verifySessionToken(token)) {
