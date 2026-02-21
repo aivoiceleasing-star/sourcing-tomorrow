@@ -11,8 +11,8 @@ const featuredArticle = await getFeaturedArticle();
 const allArticles = await getArticles();
 
 const latestArticles = allArticles
-  .filter((a) => !a.featured)
-  .slice(0, 6);
+  .filter((a) => !a.featured && a.title)
+  .slice(0, 3);
 
 const jsonLd = {
   '@context': 'https://schema.org',
