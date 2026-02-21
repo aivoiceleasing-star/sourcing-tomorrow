@@ -17,14 +17,14 @@ function isActive(href: string): boolean {
 
 <header class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-neutral-200">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex items-center justify-between h-32 lg:h-44">
+    <div class="flex items-center h-36 lg:h-48">
       <!-- Logo -->
       <a href="/" class="flex-shrink-0">
-        <img src="/images/logo.webp" alt="SourcingTomorrow" class="h-32 lg:h-40 w-auto" />
+        <img src="/images/logo.webp" alt="SourcingTomorrow" class="h-36 lg:h-44 w-auto" />
       </a>
 
-      <!-- Desktop Navigation -->
-      <nav class="hidden lg:flex items-center gap-8">
+      <!-- Desktop Navigation (centered) -->
+      <nav class="hidden lg:flex items-center justify-center gap-8 flex-1">
         {navLinks.map((link) => (
           <a
             href={link.href}
@@ -40,11 +40,14 @@ function isActive(href: string): boolean {
         ))}
       </nav>
 
+      <!-- Spacer to balance logo on desktop -->
+      <div class="hidden lg:block flex-shrink-0 w-0"></div>
+
       <!-- Mobile Hamburger Button -->
       <button
         type="button"
         id="mobile-menu-button"
-        class="lg:hidden flex items-center justify-center w-10 h-10 rounded-lg text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100 transition-colors duration-200"
+        class="lg:hidden ml-auto flex items-center justify-center w-10 h-10 rounded-lg text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100 transition-colors duration-200"
         aria-label="Toggle menu"
         aria-expanded="false"
       >
