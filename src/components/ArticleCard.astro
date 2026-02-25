@@ -43,9 +43,11 @@ const iconPath = categoryIcons[categorySlug] || categoryIcons['industry-news'];
     {featuredImage ? (
       <img
         src={featuredImage}
-        alt={title}
+        alt={`${title} — ${category} | Sourcing Tomorrow`}
+        title={title}
         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         loading="lazy"
+        decoding="async"
       />
     ) : (
       <div class:list={['w-full h-full bg-gradient-to-br flex items-center justify-center', gradient]}>

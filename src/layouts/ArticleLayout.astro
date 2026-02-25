@@ -134,9 +134,11 @@ if (faq && faq.length > 0) {
       <div class="mx-auto max-w-4xl px-4 pb-10 sm:px-6 lg:px-8">
         <img
           src={featuredImage}
-          alt={title}
+          alt={`${title} — ${category} | Sourcing Tomorrow`}
+          title={title}
           class="shadow-elevated w-full rounded-xl object-cover"
           loading="eager"
+          decoding="async"
         />
       </div>
     )}
