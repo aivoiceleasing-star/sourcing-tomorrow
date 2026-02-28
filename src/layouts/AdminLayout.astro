@@ -38,10 +38,10 @@ function isActive(href: string): boolean {
 <body class="min-h-screen bg-neutral-50 font-sans text-neutral-600 antialiased">
   <div class="flex min-h-screen">
     <!-- Sidebar -->
-    <aside class="w-60 bg-neutral-900 text-white shrink-0 flex flex-col">
-      <div class="p-4 border-b border-white/10">
+    <aside class="w-60 bg-white border-r border-neutral-200 shrink-0 flex flex-col">
+      <div class="p-4 border-b border-neutral-200">
         <a href="/admin" class="block">
-          <img src="/images/logo.webp" alt="SourcingTomorrow" class="h-20 w-auto brightness-110" />
+          <img src="/images/logo.webp" alt="SourcingTomorrow" class="h-20 w-auto" />
         </a>
       </div>
       <nav class="p-3 space-y-0.5 flex-1">
@@ -51,19 +51,19 @@ function isActive(href: string): boolean {
             class:list={[
               'block px-4 py-2.5 text-sm font-medium rounded-lg transition-colors',
               isActive(item.href)
-                ? 'bg-brand-600 text-white'
-                : 'text-neutral-400 hover:bg-white/5 hover:text-white',
+                ? 'bg-blue-50 text-blue-700'
+                : 'text-blue-600 hover:bg-blue-50/50 hover:text-blue-700',
             ]}
           >
             {item.label}
           </a>
         ))}
       </nav>
-      <div class="p-3 border-t border-white/10">
-        <a href="/" class="block px-4 py-2 text-sm text-neutral-400 hover:text-white transition-colors">
+      <div class="p-3 border-t border-neutral-200">
+        <a href="/" class="block px-4 py-2 text-sm text-blue-600 hover:text-blue-700 transition-colors">
           &larr; View Site
         </a>
-        <a href="/admin/logout" class="block px-4 py-2 text-sm text-neutral-400 hover:text-white transition-colors">
+        <a href="/admin/logout" class="block px-4 py-2 text-sm text-blue-600 hover:text-blue-700 transition-colors">
           Sign Out
         </a>
       </div>
