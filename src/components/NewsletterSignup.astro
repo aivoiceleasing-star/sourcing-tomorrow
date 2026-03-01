@@ -61,7 +61,7 @@ const statusId = `nl-status-${uid}`;
       var data = await res.json();
       if (data.success) {
         status.className = 'mt-3 p-3 rounded-lg bg-green-50 text-green-700 text-sm font-medium';
-        status.textContent = "You're subscribed! Check your inbox.";
+        status.textContent = "You're subscribed! Welcome to SourcingTomorrow.";
         form.reset();
       } else {
         throw new Error(data.error || 'Unknown error');
