@@ -1,4 +1,5 @@
-import { defineMiddleware } from 'astro:middleware';
+import { defineMiddleware, sequence } from 'astro:middleware';
+import { clerkMiddleware } from '@clerk/astro/server';
 import { verifySessionToken, COOKIE_NAME } from './lib/auth';
 
 function verifyApiKey(request: Request): boolean {
@@ -7,7 +8,7 @@ function verifyApiKey(request: Request): boolean {
   return !!(apiKey && secret && apiKey === secret);
 }
 
-export const onRequest = defineMiddleware(async (context, next) => {
+const adminMiddleware = defineMiddleware(async (context, next) => {
   const { pathname } = context.url;
 
   const isProtected =
@@ -36,3 +37,5 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
   return next();
 });
+
+export const onRequest = sequence(clerkMiddleware(), adminMiddleware);

@@ -1,0 +1,12 @@
+---
+export const prerender = false;
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SignIn } from '@clerk/astro/components';
+---
+
+<BaseLayout title="Sign In">
+  <div class="flex items-center justify-center min-h-[60vh] py-12">
+    <SignIn />
+  </div>
+</BaseLayout>

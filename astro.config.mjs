@@ -4,12 +4,13 @@ import tailwindcss from '@tailwindcss/vite';
 import vercel from '@astrojs/vercel';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
+import clerk from '@clerk/astro';
 
 export default defineConfig({
   site: 'https://sourcingtomorrow.com',
   output: 'static',
   adapter: vercel(),
-  integrations: [react(), sitemap()],
+  integrations: [react(), clerk(), sitemap()],
   security: {
     checkOrigin: false,
   },
