@@ -7,7 +7,15 @@ try {
   const clerkKey = import.meta.env.PUBLIC_CLERK_PUBLISHABLE_KEY || process.env.PUBLIC_CLERK_PUBLISHABLE_KEY;
   if (clerkKey) {
     const { clerkMiddleware } = await import('@clerk/astro/server');
-    clerkMw = clerkMiddleware();
+    const rawClerk = clerkMiddleware();
+    // Skip Clerk on admin routes (has its own auth) and API routes to avoid CSRF blocks
+    clerkMw = defineMiddleware((context, next) => {
+      const { pathname } = context.url;
+      if (pathname.startsWith('/admin') || pathname.startsWith('/api/')) {
+        return next();
+      }
+      return rawClerk(context, next);
+    });
   }
 } catch {
   // Clerk not configured — skip
