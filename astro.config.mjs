@@ -10,7 +10,13 @@ export default defineConfig({
   site: 'https://sourcingtomorrow.com',
   output: 'static',
   adapter: vercel(),
-  integrations: [react(), clerk(), sitemap()],
+  integrations: [
+    react(),
+    clerk(),
+    sitemap({
+      filter: (page) => !page.includes('/admin/'),
+    }),
+  ],
   security: {
     checkOrigin: true,
   },

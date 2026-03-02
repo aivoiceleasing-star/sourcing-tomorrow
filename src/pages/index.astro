@@ -15,18 +15,26 @@ const latestArticles = allArticles
   .filter((a) => !a.featured && a.title)
   .slice(0, 3);
 
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  name: 'SourcingTomorrow',
-  url: 'https://sourcingtomorrow.com',
-  description: 'Procurement insights, strategic sourcing news, and supply chain intelligence for professionals.',
-  publisher: {
-    '@type': 'Organization',
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
     name: 'SourcingTomorrow',
     url: 'https://sourcingtomorrow.com',
+    description: 'Procurement insights, strategic sourcing news, and supply chain intelligence for professionals.',
+    publisher: { '@id': 'https://sourcingtomorrow.com/#organization' },
   },
-};
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': 'https://sourcingtomorrow.com/#organization',
+    name: 'SourcingTomorrow',
+    url: 'https://sourcingtomorrow.com',
+    logo: 'https://sourcingtomorrow.com/favicon.svg',
+    description: 'Procurement insights, strategic sourcing news, and supply chain intelligence for professionals.',
+    sameAs: [],
+  },
+];
 ---
 
 <BaseLayout title="Home" jsonLd={jsonLd}>
