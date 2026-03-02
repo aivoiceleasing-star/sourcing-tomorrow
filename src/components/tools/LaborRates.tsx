@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const API_BASE = 'https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates';
+const API_BASE = '/api/tools/labor-rates';
 
 interface LaborRate {
   labor_category: string;
