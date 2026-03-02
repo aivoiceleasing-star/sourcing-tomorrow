@@ -2,7 +2,7 @@ export const prerender = false;
 
 import type { APIRoute } from 'astro';
 
-const SAM_API_KEY = import.meta.env.SAM_GOV_API_KEY || process.env.SAM_GOV_API_KEY;
+const SAM_API_KEY = (import.meta.env.SAM_GOV_API_KEY || process.env.SAM_GOV_API_KEY || '').replace(/"/g, '').trim();
 
 export const GET: APIRoute = async ({ request }) => {
   if (!SAM_API_KEY) {
