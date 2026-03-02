@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 
 interface Contact {
   id: number;
@@ -49,8 +49,8 @@ export default function ContactsTable() {
           </thead>
           <tbody>
             {items.map(item => (
-              <>
-                <tr key={item.id} className="border-b hover:bg-neutral-50 cursor-pointer" onClick={() => setExpanded(expanded === item.id ? null : item.id)}>
+              <Fragment key={item.id}>
+                <tr className="border-b hover:bg-neutral-50 cursor-pointer" onClick={() => setExpanded(expanded === item.id ? null : item.id)}>
                   <td className="px-4 py-3 text-neutral-900 font-medium">{item.name}</td>
                   <td className="px-4 py-3 text-neutral-600">{item.email}</td>
                   <td className="px-4 py-3 text-neutral-600">{item.subject || '-'}</td>
@@ -68,11 +68,11 @@ export default function ContactsTable() {
                   </td>
                 </tr>
                 {expanded === item.id && (
-                  <tr key={`${item.id}-msg`}>
+                  <tr>
                     <td colSpan={6} className="px-4 py-4 bg-neutral-50 text-sm text-neutral-600 whitespace-pre-wrap">{item.message || 'No message'}</td>
                   </tr>
                 )}
-              </>
+              </Fragment>
             ))}
           </tbody>
         </table>

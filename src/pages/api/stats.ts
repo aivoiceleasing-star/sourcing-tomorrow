@@ -58,7 +58,8 @@ export const GET: APIRoute = async () => {
       subscribersByMonth: subscribersByMonth.map((r: any) => ({ month: r.month, subscribers: Number(r.count) })),
     }), { headers: { 'Content-Type': 'application/json' } });
   } catch (err: any) {
-    return new Response(JSON.stringify({ error: err.message }), {
+    console.error('[API /stats] Error:', err);
+    return new Response(JSON.stringify({ error: 'Internal server error' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });

@@ -11,7 +11,8 @@ export const GET: APIRoute = async () => {
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (err: any) {
-    return new Response(JSON.stringify({ error: err.message }), {
+    console.error('[API /articles] Error:', err);
+    return new Response(JSON.stringify({ error: 'Internal server error' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });
@@ -21,6 +22,11 @@ export const GET: APIRoute = async () => {
 export const POST: APIRoute = async ({ request }) => {
   try {
     const body = await request.json();
+    if (!body.title || typeof body.title !== 'string' || !body.slug || typeof body.slug !== 'string') {
+      return new Response(JSON.stringify({ error: 'Title and slug are required' }), {
+        status: 400, headers: { 'Content-Type': 'application/json' },
+      });
+    }
     const sql = getDb();
     const rows = await sql`
       INSERT INTO articles (title, slug, excerpt, content, category, category_slug, featured_image, meta_description, publish_date, author, featured, tags, read_time, faq, status)
@@ -32,7 +38,8 @@ export const POST: APIRoute = async ({ request }) => {
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (err: any) {
-    return new Response(JSON.stringify({ error: err.message }), {
+    console.error('[API /articles] Error:', err);
+    return new Response(JSON.stringify({ error: 'Internal server error' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });

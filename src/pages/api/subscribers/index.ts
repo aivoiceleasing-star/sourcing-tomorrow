@@ -9,6 +9,7 @@ export const GET: APIRoute = async () => {
     const rows = await sql`SELECT * FROM newsletter_subscribers ORDER BY subscribed_at DESC`;
     return new Response(JSON.stringify(rows), { headers: { 'Content-Type': 'application/json' } });
   } catch (err: any) {
-    return new Response(JSON.stringify({ error: err.message }), { status: 500, headers: { 'Content-Type': 'application/json' } });
+    console.error('[API /subscribers] Error:', err);
+    return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500, headers: { 'Content-Type': 'application/json' } });
   }
 };

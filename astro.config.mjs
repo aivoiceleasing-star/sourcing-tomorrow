@@ -12,7 +12,7 @@ export default defineConfig({
   adapter: vercel(),
   integrations: [react(), clerk(), sitemap()],
   security: {
-    checkOrigin: false,
+    checkOrigin: true,
   },
   vite: {
     plugins: [tailwindcss()],

@@ -1,11 +1,13 @@
 import { defineMiddleware, sequence } from 'astro:middleware';
 import { clerkMiddleware } from '@clerk/astro/server';
+import { timingSafeEqual } from 'node:crypto';
 import { verifySessionToken, COOKIE_NAME } from './lib/auth';
 
 function verifyApiKey(request: Request): boolean {
   const apiKey = request.headers.get('X-API-Key');
   const secret = import.meta.env.API_SECRET_KEY || process.env.API_SECRET_KEY;
-  return !!(apiKey && secret && apiKey === secret);
+  if (!apiKey || !secret || apiKey.length !== secret.length) return false;
+  return timingSafeEqual(Buffer.from(apiKey), Buffer.from(secret));
 }
 
 const adminMiddleware = defineMiddleware(async (context, next) => {

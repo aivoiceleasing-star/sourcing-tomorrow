@@ -1,6 +1,7 @@
 ---
 import ArticleLayout from '../../layouts/ArticleLayout.astro';
 import { getArticles } from '../../lib/airtable';
+import sanitizeHtml from 'sanitize-html';
 
 export async function getStaticPaths() {
   const articles = await getArticles();
@@ -11,6 +12,22 @@ export async function getStaticPaths() {
 }
 
 const { article } = Astro.props;
+
+const cleanContent = sanitizeHtml(article.content, {
+  allowedTags: sanitizeHtml.defaults.allowedTags.concat([
+    'img', 'figure', 'figcaption', 'video', 'source', 'iframe',
+    'details', 'summary', 'mark', 'abbr', 'time', 'del', 'ins',
+  ]),
+  allowedAttributes: {
+    ...sanitizeHtml.defaults.allowedAttributes,
+    img: ['src', 'alt', 'title', 'width', 'height', 'loading', 'decoding', 'class'],
+    a: ['href', 'title', 'target', 'rel', 'class'],
+    iframe: ['src', 'width', 'height', 'frameborder', 'allowfullscreen', 'title', 'loading'],
+    time: ['datetime'],
+    '*': ['class', 'id'],
+  },
+  allowedIframeHostnames: ['www.youtube.com', 'youtube.com', 'player.vimeo.com'],
+});
 ---
 
 <ArticleLayout
@@ -24,5 +41,5 @@ const { article } = Astro.props;
   readTime={`${article.readTime} min read`}
   faq={article.faq}
 >
-  <Fragment set:html={article.content} />
+  <Fragment set:html={cleanContent} />
 </ArticleLayout>

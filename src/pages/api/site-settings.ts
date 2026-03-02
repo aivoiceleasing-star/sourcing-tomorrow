@@ -14,7 +14,8 @@ export const GET: APIRoute = async ({ url }) => {
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (err: any) {
-    return new Response(JSON.stringify({ error: err.message }), {
+    console.error('[API /site-settings] Error:', err);
+    return new Response(JSON.stringify({ error: 'Internal server error' }), {
       status: 500, headers: { 'Content-Type': 'application/json' },
     });
   }
@@ -23,6 +24,23 @@ export const GET: APIRoute = async ({ url }) => {
 export const PUT: APIRoute = async ({ request }) => {
   try {
     const body = await request.json();
+
+    if (Array.isArray(body)) {
+      for (const item of body) {
+        if (!item.key || typeof item.key !== 'string') {
+          return new Response(JSON.stringify({ error: 'Each item must have a valid key' }), {
+            status: 400, headers: { 'Content-Type': 'application/json' },
+          });
+        }
+      }
+    } else {
+      if (!body.key || typeof body.key !== 'string') {
+        return new Response(JSON.stringify({ error: 'Key is required' }), {
+          status: 400, headers: { 'Content-Type': 'application/json' },
+        });
+      }
+    }
+
     const sql = getDb();
 
     if (Array.isArray(body)) {
@@ -43,7 +61,8 @@ export const PUT: APIRoute = async ({ request }) => {
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (err: any) {
-    return new Response(JSON.stringify({ error: err.message }), {
+    console.error('[API /site-settings] Error:', err);
+    return new Response(JSON.stringify({ error: 'Internal server error' }), {
       status: 500, headers: { 'Content-Type': 'application/json' },
     });
   }
@@ -52,6 +71,11 @@ export const PUT: APIRoute = async ({ request }) => {
 export const POST: APIRoute = async ({ request }) => {
   try {
     const body = await request.json();
+    if (!body.key || typeof body.key !== 'string') {
+      return new Response(JSON.stringify({ error: 'Key is required' }), {
+        status: 400, headers: { 'Content-Type': 'application/json' },
+      });
+    }
     const sql = getDb();
     const rows = await sql`
       INSERT INTO site_settings (key, value, value_type, label, section, sort_order)
@@ -64,7 +88,8 @@ export const POST: APIRoute = async ({ request }) => {
       status: 201, headers: { 'Content-Type': 'application/json' },
     });
   } catch (err: any) {
-    return new Response(JSON.stringify({ error: err.message }), {
+    console.error('[API /site-settings] Error:', err);
+    return new Response(JSON.stringify({ error: 'Internal server error' }), {
       status: 500, headers: { 'Content-Type': 'application/json' },
     });
   }
