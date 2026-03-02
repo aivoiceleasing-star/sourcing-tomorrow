@@ -37,7 +37,7 @@ const categoryIcons: Record<string, string> = {
 const iconPath = categoryIcons[categorySlug] || categoryIcons['industry-news'];
 ---
 
-<a href={`/articles/${slug}/`} class="card group flex flex-col overflow-hidden h-full" aria-label={`Read article: ${title}`}>
+<a href={`/articles/${slug}/`} class="card group flex flex-col overflow-hidden h-full">
   <!-- Image Area -->
   <div class="aspect-[16/9] overflow-hidden flex-shrink-0 relative">
     {featuredImage ? (
@@ -67,7 +67,7 @@ const iconPath = categoryIcons[categorySlug] || categoryIcons['industry-news'];
       {excerpt}
     </p>
     <div class="mt-auto flex items-center justify-between">
-      <CategoryBadge name={category} slug={categorySlug} size="sm" />
+      <CategoryBadge name={category} slug={categorySlug} size="sm" linked={false} />
       <span class="text-xs text-neutral-500">{readTime} min read</span>
     </div>
   </div>

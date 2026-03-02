@@ -3,22 +3,28 @@ interface Props {
   name: string;
   slug: string;
   size?: 'sm' | 'md';
+  linked?: boolean;
 }
 
-const { name, slug, size = 'sm' } = Astro.props;
+const { name, slug, size = 'sm', linked = true } = Astro.props;
 
 const sizeClasses = {
   sm: 'px-2.5 py-1 text-xs',
   md: 'px-3 py-1.5 text-sm',
 };
+
+const baseClasses = 'inline-block bg-brand-50 text-brand-700 font-semibold rounded-full transition-colors duration-200';
 ---
 
-<a
-  href={`/categories/${slug}/`}
-  class:list={[
-    'inline-block bg-brand-50 text-brand-700 font-semibold rounded-full hover:bg-brand-100 transition-colors duration-200',
-    sizeClasses[size],
-  ]}
->
-  {name}
-</a>
+{linked ? (
+  <a
+    href={`/categories/${slug}/`}
+    class:list={[baseClasses, 'hover:bg-brand-100', sizeClasses[size]]}
+  >
+    {name}
+  </a>
+) : (
+  <span class:list={[baseClasses, sizeClasses[size]]}>
+    {name}
+  </span>
+)}

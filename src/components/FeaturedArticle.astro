@@ -21,7 +21,7 @@ const formattedDate = new Date(publishDate).toLocaleDateString('en-US', {
 });
 ---
 
-<a href={`/articles/${slug}/`} class="card group block overflow-hidden" aria-label={`Read article: ${title}`}>
+<a href={`/articles/${slug}/`} class="card group block overflow-hidden">
   <div class="grid grid-cols-1 lg:grid-cols-2">
     <!-- Image Area -->
     <div class="aspect-[16/9] lg:aspect-auto lg:min-h-[360px] bg-brand-50 flex items-center justify-center overflow-hidden">
@@ -43,7 +43,7 @@ const formattedDate = new Date(publishDate).toLocaleDateString('en-US', {
     <!-- Content -->
     <div class="p-8 lg:p-12 flex flex-col justify-center">
       <div class="mb-4">
-        <CategoryBadge name={category} slug={categorySlug} size="md" />
+        <CategoryBadge name={category} slug={categorySlug} size="md" linked={false} />
       </div>
       <div class="flex items-center gap-2 text-neutral-500 text-sm mb-3">
         <time datetime={publishDate}>{formattedDate}</time>
