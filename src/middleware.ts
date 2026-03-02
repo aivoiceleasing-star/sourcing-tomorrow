@@ -1,7 +1,17 @@
 import { defineMiddleware, sequence } from 'astro:middleware';
-import { clerkMiddleware } from '@clerk/astro/server';
 import { timingSafeEqual } from 'node:crypto';
 import { verifySessionToken, COOKIE_NAME } from './lib/auth';
+
+let clerkMw: ReturnType<typeof defineMiddleware> | null = null;
+try {
+  const clerkKey = import.meta.env.PUBLIC_CLERK_PUBLISHABLE_KEY || process.env.PUBLIC_CLERK_PUBLISHABLE_KEY;
+  if (clerkKey) {
+    const { clerkMiddleware } = await import('@clerk/astro/server');
+    clerkMw = clerkMiddleware();
+  }
+} catch {
+  // Clerk not configured — skip
+}
 
 function verifyApiKey(request: Request): boolean {
   const apiKey = request.headers.get('X-API-Key');
@@ -40,4 +50,5 @@ const adminMiddleware = defineMiddleware(async (context, next) => {
   return next();
 });
 
-export const onRequest = sequence(clerkMiddleware(), adminMiddleware);
+const passthrough = defineMiddleware((_, next) => next());
+export const onRequest = sequence(clerkMw ?? passthrough, adminMiddleware);
