@@ -47,12 +47,12 @@ export default function LaborRates() {
       params.set('keyword', keyword.trim());
       params.set('page', '1');
       params.set('page_size', '50');
-      if (education) params.set('education_level', education);
-      if (minYears) params.set('min_years_experience', minYears);
+      if (education) params.append('filter', `education_level:${education}`);
+      if (minYears) params.append('filter', `experience_range:${minYears},45`);
       if (minPrice || maxPrice) {
-        params.set('price_range', `${minPrice || '0'},${maxPrice || '999'}`);
+        params.append('filter', `price_range:${minPrice || '15'},${maxPrice || '500'}`);
       }
-      if (businessSize) params.set('business_size', businessSize);
+      if (businessSize) params.append('filter', `business_size:${businessSize}`);
 
       const res = await fetch(`${API_BASE}/?${params.toString()}`);
       if (!res.ok) throw new Error(`API error: ${res.status}`);
