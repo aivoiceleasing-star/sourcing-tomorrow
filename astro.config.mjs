@@ -7,7 +7,7 @@ import sitemap from '@astrojs/sitemap';
 import clerk from '@clerk/astro';
 
 export default defineConfig({
-  site: 'https://sourcingtomorrow.com',
+  site: 'https://www.sourcingtomorrow.com',
   output: 'static',
   adapter: vercel(),
   integrations: [

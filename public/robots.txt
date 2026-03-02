@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 
-Sitemap: https://sourcingtomorrow.com/sitemap-index.xml
+Sitemap: https://www.sourcingtomorrow.com/sitemap-index.xml

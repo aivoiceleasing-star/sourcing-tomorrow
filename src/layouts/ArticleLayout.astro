@@ -50,14 +50,14 @@ const articleJsonLd: Record<string, unknown> = {
   publisher: {
     '@type': 'Organization',
     name: 'SourcingTomorrow',
-    url: 'https://sourcingtomorrow.com',
+    url: 'https://www.sourcingtomorrow.com',
   },
 };
 
 if (featuredImage) {
   articleJsonLd.image = featuredImage.startsWith('http')
     ? featuredImage
-    : `https://sourcingtomorrow.com${featuredImage}`;
+    : `https://www.sourcingtomorrow.com${featuredImage}`;
 }
 
 // BreadcrumbList for rich results
@@ -69,19 +69,19 @@ const breadcrumbJsonLd: Record<string, unknown> = {
       '@type': 'ListItem',
       position: 1,
       name: 'Home',
-      item: 'https://sourcingtomorrow.com/',
+      item: 'https://www.sourcingtomorrow.com/',
     },
     {
       '@type': 'ListItem',
       position: 2,
       name: 'Articles',
-      item: 'https://sourcingtomorrow.com/articles/',
+      item: 'https://www.sourcingtomorrow.com/articles/',
     },
     {
       '@type': 'ListItem',
       position: 3,
       name: category,
-      item: `https://sourcingtomorrow.com/categories/${categorySlug}/`,
+      item: `https://www.sourcingtomorrow.com/categories/${categorySlug}/`,
     },
     {
       '@type': 'ListItem',
