@@ -15,7 +15,7 @@ const adminMiddleware = defineMiddleware(async (context, next) => {
 
   const isProtected =
     (pathname.startsWith('/admin') && pathname !== '/admin/login') ||
-    (pathname.startsWith('/api/') && pathname !== '/api/contact' && pathname !== '/api/newsletter');
+    (pathname.startsWith('/api/') && pathname !== '/api/contact' && pathname !== '/api/newsletter' && !pathname.startsWith('/api/tools/'));
 
   if (!isProtected) return next();
 
