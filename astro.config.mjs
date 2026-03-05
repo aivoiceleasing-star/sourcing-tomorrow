@@ -9,6 +9,10 @@ import clerk from '@clerk/astro';
 export default defineConfig({
   site: 'https://www.sourcingtomorrow.com',
   output: 'static',
+  redirects: {
+    '/about-us': '/about',
+    '/about-us/': '/about',
+  },
   adapter: vercel(),
   integrations: [
     react(),
