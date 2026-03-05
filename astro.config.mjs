@@ -12,6 +12,8 @@ export default defineConfig({
   redirects: {
     '/about-us': '/about',
     '/about-us/': '/about',
+    '/career-development': '/articles/procurement-manager-career-advancement-skills-2026',
+    '/career-development/': '/articles/procurement-manager-career-advancement-skills-2026',
   },
   adapter: vercel(),
   integrations: [
