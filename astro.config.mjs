@@ -4,7 +4,6 @@ import tailwindcss from '@tailwindcss/vite';
 import node from '@astrojs/node';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
-import clerk from '@clerk/astro';
 
 export default defineConfig({
   site: 'https://www.sourcingtomorrow.com',
@@ -18,7 +17,6 @@ export default defineConfig({
   adapter: node({ mode: 'standalone' }),
   integrations: [
     react(),
-    clerk(),
     sitemap({
       filter: (page) => !page.includes('/admin/'),
     }),
