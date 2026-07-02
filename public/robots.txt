@@ -1,5 +1,47 @@
+# Content signal for AI crawlers: this site is indexable for AI search and
+# citation/retrieval, but its content is NOT licensed for model training.
+# (search=yes, ai-input=yes, ai-train=no — see https://contentsignals.org)
+Content-Signal: search=yes, ai-input=yes, ai-train=no
+
+# Default crawlers
 User-agent: *
 Allow: /
 Disallow: /admin/
 
+# AI/LLM crawlers — allowed for AI search, citation, and retrieval so
+# SourcingTomorrow's articles and resources are discoverable and citable by
+# assistants. This is NOT a training corpus: see the ai-train=no signal above.
+User-agent: GPTBot
+Allow: /
+Disallow: /admin/
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /admin/
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /admin/
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /admin/
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /admin/
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /admin/
+
+User-agent: CCBot
+Allow: /
+Disallow: /admin/
+
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /admin/
+
 Sitemap: https://www.sourcingtomorrow.com/sitemap-index.xml
+Sitemap: https://www.sourcingtomorrow.com/sitemap-agentic-discovery.xml

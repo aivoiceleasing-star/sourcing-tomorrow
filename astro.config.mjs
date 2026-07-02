@@ -1,7 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
-import vercel from '@astrojs/vercel';
+import node from '@astrojs/node';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import clerk from '@clerk/astro';
@@ -15,7 +15,7 @@ export default defineConfig({
     '/career-development': '/articles/procurement-manager-career-advancement-skills-2026',
     '/career-development/': '/articles/procurement-manager-career-advancement-skills-2026',
   },
-  adapter: vercel(),
+  adapter: node({ mode: 'standalone' }),
   integrations: [
     react(),
     clerk(),
@@ -24,7 +24,7 @@ export default defineConfig({
     }),
   ],
   security: {
-    checkOrigin: true,
+    checkOrigin: false,
   },
   vite: {
     plugins: [tailwindcss()],

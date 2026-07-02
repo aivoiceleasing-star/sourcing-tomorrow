@@ -3,6 +3,8 @@
 Procurement professional community and news site. Astro 5 + Neon Postgres + Vercel + Tailwind 4 + React.
 Live at: https://www.sourcingtomorrow.com (root domain DNS pending — A record at HostGator still points to old IP)
 
+> **Stack gotchas** (Neon driver, HMAC auth, Vercel deploy, static rebuild, Astro SSR) live in `~/.claude/projects/-Users-claudiotartaglia/memory/shared-stack-gotchas.md`. Project-specific overrides below.
+
 ## Environment Variables
 
 Required (in `.env` at project root):
@@ -16,12 +18,10 @@ Optional:
 - `API_SECRET_KEY` — For programmatic API access (n8n integration, checked via `X-API-Key` header)
 - `AIRTABLE_API_KEY` / `AIRTABLE_BASE_ID` — Not yet integrated, future CMS alternative
 
-## Deployment
+## Deployment (project-specific overrides)
 
-- **Auto-deploy**: Push to `main` branch triggers Vercel build
-- **Admin rebuild**: "Rebuild Site" button in admin calls `POST /api/rebuild` which hits the deploy hook
-- **Static site**: Admin CRUD changes don't appear on public pages until rebuild
 - **Vercel Project ID**: `prj_4PK94g1IDoC5IjVeyU8k4sC8V3mA`
+- Admin "Rebuild Site" calls `POST /api/rebuild` → `VERCEL_DEPLOY_HOOK` env var
 
 ## Data Layer
 
@@ -30,11 +30,10 @@ Three-tier fallback in `src/lib/queries.ts`:
 2. **Airtable** (secondary, not yet set up)
 3. **Mock data** (`src/data/mock.ts`) — hardcoded fallback
 
-## Authentication
+## Public exceptions (auth middleware)
 
-- HMAC-SHA256 cookie-based session tokens (24hr expiry) in `src/lib/auth.ts`
-- Middleware protects `/admin/*` (cookie required) and `/api/*` (cookie OR API key)
-- Public exceptions: `/api/contact`, `/api/newsletter` (no auth needed)
+- `/api/contact`
+- `/api/newsletter`
 
 ## Database Schema (6 tables)
 
@@ -56,18 +55,11 @@ Three-tier fallback in `src/lib/queries.ts`:
 - **CRUD**: Articles, Resources, Categories, Contacts (read-only), Subscribers (read-only), Site Settings
 - **Image upload**: `POST /api/upload` to Vercel Blob (requires BLOB_READ_WRITE_TOKEN)
 
-## Known Issues
+## Known Issues (project-specific)
 
 - **Root domain DNS**: `sourcingtomorrow.com` A record at HostGator still points to 66.235.200.171 (old IP). Needs to be changed to 76.76.21.21 (Vercel). `www` subdomain works.
 - **Vercel Blob orphaned stores**: 5 failed CLI attempts created orphaned blob stores counting toward the 5-store Hobby plan limit. Delete in Vercel dashboard before creating a fresh one.
-- **Static site rebuild**: Admin changes are DB-only until a Vercel rebuild runs. Always use the "Rebuild Site" button after content updates.
 - **Async/await pitfall**: If making a sync function async in queries.ts, grep ALL call sites for missing `await` — Astro silently passes Promises instead of data.
-
-## Neon Postgres Gotchas
-
-- ONLY accepts tagged template literals (`sql\`SELECT...\``) or `.query(rawString)` — never `sql(string)`
-- Cannot execute multiple SQL statements in one call — split on semicolons
-- Returns numeric columns as strings — always `Number(row.field)`
 
 ## Content Categories
 
