@@ -1,7 +1,7 @@
 export const prerender = false;
 
 import type { APIRoute } from 'astro';
-import { put } from '@vercel/blob';
+import { put } from '../../lib/r2';
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
 
