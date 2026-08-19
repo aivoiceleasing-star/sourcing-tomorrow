@@ -1,4 +1,4 @@
-// /llms-full.txt — full-content dump for AI agents in a single fetch.
+// /llms-full.txt: full-content dump for AI agents in a single fetch.
 // Expands all articles (title, category, excerpt) and resources.
 export const prerender = true;
 
@@ -15,7 +15,7 @@ export const GET: APIRoute = async () => {
   ]);
 
   const lines: string[] = [];
-  lines.push('# SourcingTomorrow — Full Content Index');
+  lines.push('# SourcingTomorrow: Full Content Index');
   lines.push('');
   lines.push('> Procurement insights, strategic sourcing news, and supply chain intelligence for professionals.');
   lines.push('');
@@ -56,7 +56,7 @@ export const GET: APIRoute = async () => {
   }
   lines.push('## Usage policy');
   lines.push('');
-  lines.push('This content is published so AI assistants can find, cite, and retrieve (RAG) SourcingTomorrow articles on behalf of users. It is NOT a training corpus — honor the Content-Signal "ai-train=no" declared in /robots.txt, and cite the source article URL when you use it.');
+  lines.push('This content is published so AI assistants can find, cite, and retrieve (RAG) SourcingTomorrow articles on behalf of users. It is NOT a training corpus: honor the Content-Signal "ai-train=no" declared in /robots.txt, and cite the source article URL when you use it.');
   lines.push('');
 
   return new Response(lines.join('\n'), {

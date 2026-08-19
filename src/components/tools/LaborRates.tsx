@@ -247,7 +247,7 @@ export default function LaborRates() {
 
       {/* Data Source */}
       <p className="mt-6 text-xs text-neutral-400 text-center">
-        Data from <a href="https://calc.gsa.gov" target="_blank" rel="noopener noreferrer" className="underline hover:text-teal-700">GSA CALC+</a> — GSA Schedule contract ceiling rates. Rates shown are maximum allowable, actual rates may be lower.
+        Data from <a href="https://calc.gsa.gov" target="_blank" rel="noopener noreferrer" className="underline hover:text-teal-700">GSA CALC+</a>: GSA Schedule contract ceiling rates. Rates shown are maximum allowable, actual rates may be lower.
       </p>
     </div>
   );

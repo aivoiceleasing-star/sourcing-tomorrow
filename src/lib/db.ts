@@ -1,6 +1,6 @@
 /**
  * Postgres connection utility.
- * postgres.js drop-in for the old @neondatabase/serverless `neon()` client —
+ * postgres.js drop-in for the old @neondatabase/serverless `neon()` client:
  * runs against Neon OR a self-hosted box Postgres by flipping DATABASE_URL.
  * SSL auto-enabled for Neon, disabled for the plain box Postgres. Timestamp
  * OIDs forced to raw strings to match Neon's output.

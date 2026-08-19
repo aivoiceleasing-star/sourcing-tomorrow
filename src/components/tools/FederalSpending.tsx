@@ -130,7 +130,7 @@ export default function FederalSpending() {
         <div className="card overflow-hidden">
           <div className="border-b border-neutral-200 bg-neutral-50 px-6 py-4 flex items-center justify-between">
             <h3 className="text-sm font-bold text-neutral-900">
-              Top {results.length} Results — FY {fy}
+              Top {results.length} Results: FY {fy}
             </h3>
             <span className="text-sm font-semibold text-teal-700">
               Total shown: {formatCurrency(total)}
@@ -163,7 +163,7 @@ export default function FederalSpending() {
 
       {/* Data Source */}
       <p className="mt-6 text-xs text-neutral-400 text-center">
-        Data from <a href="https://usaspending.gov" target="_blank" rel="noopener noreferrer" className="underline hover:text-teal-700">USASpending.gov</a> — updated daily. Fiscal year runs October 1 to September 30.
+        Data from <a href="https://usaspending.gov" target="_blank" rel="noopener noreferrer" className="underline hover:text-teal-700">USASpending.gov</a>: updated daily. Fiscal year runs October 1 to September 30.
       </p>
     </div>
   );

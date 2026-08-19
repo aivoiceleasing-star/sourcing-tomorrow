@@ -28,7 +28,7 @@ const formattedDate = new Date(publishDate).toLocaleDateString('en-US', {
       {featuredImage ? (
         <img
           src={featuredImage}
-          alt={`${title} — ${category} | Sourcing Tomorrow`}
+          alt={`${title}: ${category} | Sourcing Tomorrow`}
           class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           loading="eager"
           decoding="async"

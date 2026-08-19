@@ -1,4 +1,4 @@
-// /llms.txt — AI agent site map and content index.
+// /llms.txt: AI agent site map and content index.
 // Spec: https://llmstxt.org/ (markdown format describing the site to LLM crawlers)
 // Generated on each build from the current articles, categories, and resources.
 export const prerender = true;
@@ -33,14 +33,14 @@ export const GET: APIRoute = async () => {
   lines.push('');
   for (const c of categories) {
     const desc = (c.description || '').replace(/\s+/g, ' ').slice(0, 140);
-    lines.push(`- [${c.name}](${SITE}/categories/${c.slug})${desc ? ` — ${desc}` : ''}`);
+    lines.push(`- [${c.name}](${SITE}/categories/${c.slug})${desc ? `: ${desc}` : ''}`);
   }
   lines.push('');
   lines.push('## Articles');
   lines.push('');
   for (const a of articles.slice(0, 50)) {
     const excerpt = (a.excerpt || a.metaDescription || '').replace(/\s+/g, ' ').slice(0, 180);
-    lines.push(`- [${a.title}](${SITE}/articles/${a.slug})${a.category ? ` (${a.category})` : ''}${excerpt ? ` — ${excerpt}` : ''}`);
+    lines.push(`- [${a.title}](${SITE}/articles/${a.slug})${a.category ? ` (${a.category})` : ''}${excerpt ? `: ${excerpt}` : ''}`);
   }
   lines.push('');
   if (resources.length) {
@@ -48,7 +48,7 @@ export const GET: APIRoute = async () => {
     lines.push('');
     for (const r of resources) {
       const desc = (r.description || '').replace(/\s+/g, ' ').slice(0, 160);
-      lines.push(`- [${r.title}](${SITE}/resources)${desc ? ` — ${desc}` : ''}`);
+      lines.push(`- [${r.title}](${SITE}/resources)${desc ? `: ${desc}` : ''}`);
     }
     lines.push('');
   }

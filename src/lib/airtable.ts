@@ -1,5 +1,5 @@
 /**
- * Content Layer — Three-tier fallback: DB > Airtable > Mock
+ * Content Layer: Three-tier fallback: DB > Airtable > Mock
  */
 
 import type { Article, Resource, Category } from '../data/mock';

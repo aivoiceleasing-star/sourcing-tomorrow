@@ -247,7 +247,7 @@ export default function GovernmentOpportunities() {
 
       {/* Data Source */}
       <p className="mt-6 text-xs text-neutral-400 text-center">
-        Data from <a href="https://sam.gov" target="_blank" rel="noopener noreferrer" className="underline hover:text-teal-700">SAM.gov</a> — the official U.S. government system for procurement opportunities.
+        Data from <a href="https://sam.gov" target="_blank" rel="noopener noreferrer" className="underline hover:text-teal-700">SAM.gov</a>: the official U.S. government system for procurement opportunities.
       </p>
     </div>
   );

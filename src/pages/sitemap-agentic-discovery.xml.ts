@@ -1,5 +1,5 @@
 /**
- * /sitemap-agentic-discovery.xml — agent-specific sitemap listing the
+ * /sitemap-agentic-discovery.xml: agent-specific sitemap listing the
  * discovery surfaces AI crawlers (GPTBot, ClaudeBot, PerplexityBot) should
  * pull to stay current on SourcingTomorrow's procurement coverage.
  *

@@ -1,5 +1,5 @@
 /**
- * R2 storage helper — drop-in replacement for the bits of `@vercel/blob` we use.
+ * R2 storage helper: drop-in replacement for the bits of `@vercel/blob` we use.
  *
  * Public files (images) go in the shared public bucket and are served directly
  * from R2_PUBLIC_URL_BASE. Private files (documents like RFP responses) go in a

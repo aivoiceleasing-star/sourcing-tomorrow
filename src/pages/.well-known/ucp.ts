@@ -1,5 +1,5 @@
 /**
- * /.well-known/ucp — agent discovery manifest.
+ * /.well-known/ucp: agent discovery manifest.
  *
  * Modeled on the emerging Universal Commerce Protocol convention for letting AI
  * assistants discover and navigate a site without screen-scraping. Adapted for
@@ -33,12 +33,12 @@ export const GET: APIRoute = async () => {
       article_count: articles.length,
     },
     capabilities: {
-      // Read-only — live today
+      // Read-only: live today
       article_browse: true,
       article_search: false,
       category_lookup: true,
       resource_download: true,
-      tools_access: true, // /tools — labor rates, federal spending, opportunities
+      tools_access: true, // /tools: labor rates, federal spending, opportunities
       faq_lookup: true, // articles carry FAQ JSON-LD where applicable
       // Transactional
       newsletter_signup: true, // /newsletter
@@ -69,7 +69,7 @@ export const GET: APIRoute = async () => {
       ai_retrieval_rag: 'allowed',
       ai_training: 'not_allowed',
       statement:
-        'Content is published for AI search, citation, and retrieval (RAG). It is NOT a training corpus — honor Content-Signal ai-train=no and cite the source article URL.',
+        'Content is published for AI search, citation, and retrieval (RAG). It is NOT a training corpus: honor Content-Signal ai-train=no and cite the source article URL.',
     },
     crawler_policy: {
       allow: [
