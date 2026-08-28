@@ -43,10 +43,17 @@ const articleJsonLd: Record<string, unknown> = {
   headline: title,
   description,
   datePublished: publishDate,
-  author: {
-    '@type': 'Person',
-    name: author,
-  },
+  author: author.includes('Tartaglia')
+    ? {
+        '@type': 'Person',
+        '@id': 'https://www.sourcingtomorrow.com/author/claudio-tartaglia#person',
+        name: author,
+        url: 'https://www.sourcingtomorrow.com/author/claudio-tartaglia',
+      }
+    : {
+        '@type': 'Person',
+        name: author,
+      },
   publisher: {
     '@type': 'Organization',
     name: 'SourcingTomorrow',
@@ -150,7 +157,15 @@ if (faq && faq.length > 0) {
           {formattedDate}
         </time>
         <span class="text-neutral-500">|</span>
-        <span class="font-medium text-neutral-700">{author}</span>
+        {author.includes('Tartaglia') ? (
+          <a
+            href="/author/claudio-tartaglia"
+            rel="author"
+            class="font-medium text-neutral-700 underline-offset-4 hover:underline"
+          >{author}</a>
+        ) : (
+          <span class="font-medium text-neutral-700">{author}</span>
+        )}
         <span class="text-neutral-500">|</span>
         <span class="text-neutral-500">{readTime}</span>
       </div>

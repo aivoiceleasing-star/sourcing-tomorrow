@@ -1,0 +1,125 @@
+---
+/**
+ * Author page for the bylined articles.
+ *
+ * These articles double as professional collateral: someone searches the name
+ * and lands here. A byline that names a person and links nowhere wastes most of
+ * its value, so every article links here and the Article schema points its
+ * author at this page's @id.
+ *
+ * Name appears in the URL, the <title> and the <h1>, which is what a site:
+ * search actually matches on. Structured data alone does not surface a person.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getArticles } from '../../lib/airtable';
+
+const SITE = 'https://www.sourcingtomorrow.com';
+const AUTHOR = 'Claudio Tartaglia';
+const AUTHOR_URL = `${SITE}/author/claudio-tartaglia`;
+const LINKEDIN = 'https://www.linkedin.com/in/claudio-tartaglia-04255a14/';
+
+const all = await getArticles();
+const articles = (all || []).filter((a: any) => (a.author || '').includes('Tartaglia'));
+
+const KNOWS_ABOUT = [
+  'Strategic sourcing',
+  'Procurement',
+  'Supply chain management',
+  'Vendor management',
+  'Contract negotiation',
+  'Procurement automation',
+  'Supplier relationship management',
+  'Cost reduction',
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'ProfilePage',
+      '@id': `${AUTHOR_URL}#profilepage`,
+      url: AUTHOR_URL,
+      name: `${AUTHOR} — Author`,
+      mainEntity: { '@id': `${AUTHOR_URL}#person` },
+      inLanguage: 'en-US',
+    },
+    {
+      '@type': 'Person',
+      '@id': `${AUTHOR_URL}#person`,
+      name: AUTHOR,
+      url: AUTHOR_URL,
+      jobTitle: 'Strategic Sourcing and Procurement Leader',
+      description:
+        'Strategic sourcing and procurement leader writing on sourcing strategy, supplier management and procurement operations.',
+      knowsAbout: KNOWS_ABOUT,
+      sameAs: [LINKEDIN],
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title={`${AUTHOR} — Author | SourcingTomorrow`}
+  description={`Articles by ${AUTHOR} on strategic sourcing, procurement operations, supplier management and supply chain strategy.`}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+  <main class="mx-auto max-w-3xl px-4 py-16">
+    <header class="border-b border-neutral-200 pb-8">
+      <p class="text-xs font-semibold uppercase tracking-widest text-neutral-500">Author</p>
+      <h1 class="mt-2 text-4xl font-extrabold tracking-tight text-neutral-900">{AUTHOR}</h1>
+      <p class="mt-3 text-lg text-neutral-600">Strategic Sourcing and Procurement Leader</p>
+
+      <p class="mt-6 max-w-2xl leading-relaxed text-neutral-700">
+        Claudio Tartaglia writes on strategic sourcing, procurement operations and supplier
+        management. The articles here focus on where sourcing programs actually succeed or stall in
+        practice, rather than on technology trends.
+      </p>
+
+      <p class="mt-6">
+        <a
+          href={LINKEDIN}
+          target="_blank"
+          rel="noopener"
+          class="inline-flex items-center gap-2 text-sm font-medium text-blue-700 underline underline-offset-4 hover:text-blue-900"
+        >
+          Connect on LinkedIn
+        </a>
+      </p>
+    </header>
+
+    <section class="mt-10">
+      <h2 class="text-sm font-semibold uppercase tracking-widest text-neutral-500">
+        Areas of focus
+      </h2>
+      <ul class="mt-3 flex flex-wrap gap-2">
+        {KNOWS_ABOUT.map((k) => (
+          <li class="rounded-full border border-neutral-200 bg-neutral-50 px-3 py-1 text-sm text-neutral-700">
+            {k}
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    {articles.length > 0 && (
+      <section class="mt-12">
+        <h2 class="text-sm font-semibold uppercase tracking-widest text-neutral-500">
+          Articles by {AUTHOR}
+        </h2>
+        <ul class="mt-4 divide-y divide-neutral-200">
+          {articles.map((a: any) => (
+            <li class="py-4">
+              <a
+                href={`/articles/${a.slug}`}
+                class="font-medium text-neutral-900 underline-offset-4 hover:underline"
+              >
+                {a.title}
+              </a>
+              {a.excerpt && <p class="mt-1 text-sm leading-relaxed text-neutral-600">{a.excerpt}</p>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </main>
+</BaseLayout>
