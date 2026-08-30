@@ -40,6 +40,10 @@ const cleanContent = sanitizeHtml(article.content, {
   featuredImage={article.featuredImage}
   readTime={`${article.readTime} min read`}
   faq={article.faq}
+  keyTakeaways={article.keyTakeaways}
+  keyStats={article.keyStats}
+  dataTable={article.dataTable}
+  pullQuote={article.pullQuote}
 >
   <Fragment set:html={cleanContent} />
 </ArticleLayout>

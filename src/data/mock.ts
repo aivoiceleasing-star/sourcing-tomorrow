@@ -13,6 +13,12 @@ export interface Article {
   tags: string[];
   readTime: number;
   faq?: { question: string; answer: string }[];
+  // AAF density blocks. Written by the agency content pipeline and rendered on
+  // the article page; without these an article publishes as bare prose.
+  keyTakeaways?: string[];
+  keyStats?: { label: string; value: string; source?: string }[];
+  dataTable?: { caption?: string; headers: string[]; rows: string[][]; source?: string };
+  pullQuote?: { text: string; attribution?: string };
 }
 
 export interface Resource {

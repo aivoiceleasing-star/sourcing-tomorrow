@@ -24,6 +24,10 @@ function rowToArticle(r: any): Article {
     tags: r.tags || [],
     readTime: r.read_time || 5,
     faq,
+    keyTakeaways: Array.isArray(r.key_takeaways) && r.key_takeaways.length ? r.key_takeaways : undefined,
+    keyStats: Array.isArray(r.key_stats) && r.key_stats.length ? r.key_stats : undefined,
+    dataTable: r.data_table && r.data_table.headers ? r.data_table : undefined,
+    pullQuote: r.pull_quote && r.pull_quote.text ? r.pull_quote : undefined,
   };
 }
 

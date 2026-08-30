@@ -16,6 +16,10 @@ interface Props {
   featuredImage?: string;
   readTime: string;
   faq?: FaqItem[];
+  keyTakeaways?: string[];
+  keyStats?: { label: string; value: string; source?: string }[];
+  dataTable?: { caption?: string; headers: string[]; rows: string[][]; source?: string };
+  pullQuote?: { text: string; attribution?: string };
 }
 
 const {
@@ -28,6 +32,10 @@ const {
   featuredImage,
   readTime,
   faq,
+  keyTakeaways,
+  keyStats,
+  dataTable,
+  pullQuote,
 } = Astro.props;
 
 const formattedDate = new Date(publishDate).toLocaleDateString('en-US', {
@@ -100,6 +108,44 @@ const breadcrumbJsonLd: Record<string, unknown> = {
 
 // Build combined JSON-LD (article + breadcrumb + optional FAQ)
 const jsonLdBlocks: Record<string, unknown>[] = [articleJsonLd, breadcrumbJsonLd];
+
+// The density blocks carry the article's evidence, so they are emitted as
+// structured data as well as rendered: the takeaways as the Article abstract,
+// each stat as a QuantitativeValue, the table as a Dataset, the pull quote as a
+// Quotation. Without this the figures are visible to readers but invisible to
+// anything parsing the page.
+if (keyTakeaways && keyTakeaways.length > 0) {
+  articleJsonLd.abstract = keyTakeaways.join(' ');
+}
+
+if (keyStats && keyStats.length > 0) {
+  articleJsonLd.mentions = keyStats.map((stat) => ({
+    '@type': 'QuantitativeValue',
+    name: stat.label,
+    value: stat.value,
+    ...(stat.source ? { description: `Source: ${stat.source}` } : {}),
+  }));
+}
+
+if (dataTable && dataTable.headers?.length > 0) {
+  jsonLdBlocks.push({
+    '@context': 'https://schema.org',
+    '@type': 'Dataset',
+    name: dataTable.caption || `${title}: reference data`,
+    description: dataTable.caption || `Reference table from ${title}`,
+    ...(dataTable.source ? { creditText: dataTable.source } : {}),
+    variableMeasured: dataTable.headers,
+  });
+}
+
+if (pullQuote && pullQuote.text) {
+  jsonLdBlocks.push({
+    '@context': 'https://schema.org',
+    '@type': 'Quotation',
+    text: pullQuote.text,
+    ...(pullQuote.attribution ? { creator: { '@type': 'Person', name: pullQuote.attribution } } : {}),
+  });
+}
 
 if (faq && faq.length > 0) {
   jsonLdBlocks.push({
@@ -189,10 +235,96 @@ if (faq && faq.length > 0) {
       </div>
     )}
 
+    <!-- Key Takeaways -->
+    {keyTakeaways && keyTakeaways.length > 0 && (
+      <section class="mx-auto max-w-3xl px-4 pb-10 sm:px-6 lg:px-8">
+        <div class="rounded-xl border border-neutral-200 bg-neutral-50 p-6">
+          <h2 class="text-sm font-semibold tracking-widest text-neutral-500 uppercase">
+            Key takeaways
+          </h2>
+          <ul class="mt-4 space-y-3">
+            {keyTakeaways.map((point) => (
+              <li class="flex gap-3 leading-relaxed text-neutral-800">
+                <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-neutral-400"></span>
+                <span>{point}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )}
+
+    <!-- Key Stats -->
+    {keyStats && keyStats.length > 0 && (
+      <section class="mx-auto max-w-3xl px-4 pb-10 sm:px-6 lg:px-8">
+        <dl class="grid gap-4 sm:grid-cols-3">
+          {keyStats.map((stat) => (
+            <div class="rounded-xl border border-neutral-200 p-5">
+              <dt class="text-3xl font-bold tracking-tight text-neutral-900">{stat.value}</dt>
+              <dd class="mt-2 text-sm leading-snug text-neutral-700">{stat.label}</dd>
+              {stat.source && (
+                <dd class="mt-3 text-xs leading-snug text-neutral-500">{stat.source}</dd>
+              )}
+            </div>
+          ))}
+        </dl>
+      </section>
+    )}
+
     <!-- Article Body -->
     <div class="prose-article mx-auto max-w-3xl px-4 pb-16 sm:px-6 lg:px-8">
       <slot />
     </div>
+
+    <!-- Pull Quote -->
+    {pullQuote && pullQuote.text && (
+      <section class="mx-auto max-w-3xl px-4 pb-16 sm:px-6 lg:px-8">
+        <blockquote class="border-l-4 border-neutral-900 pl-6">
+          <p class="text-xl leading-relaxed font-medium text-neutral-900 italic">
+            {pullQuote.text}
+          </p>
+          {pullQuote.attribution && (
+            <footer class="mt-3 text-sm text-neutral-600">{pullQuote.attribution}</footer>
+          )}
+        </blockquote>
+      </section>
+    )}
+
+    <!-- Data Table -->
+    {dataTable && dataTable.headers?.length > 0 && (
+      <section class="mx-auto max-w-3xl px-4 pb-16 sm:px-6 lg:px-8">
+        {dataTable.caption && (
+          <h2 class="mb-4 text-xl font-bold tracking-tight text-neutral-900">
+            {dataTable.caption}
+          </h2>
+        )}
+        <div class="overflow-x-auto rounded-xl border border-neutral-200">
+          <table class="w-full border-collapse text-left text-sm">
+            <thead class="bg-neutral-50">
+              <tr>
+                {dataTable.headers.map((h) => (
+                  <th class="border-b border-neutral-200 px-4 py-3 font-semibold text-neutral-900">
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {dataTable.rows.map((row) => (
+                <tr class="border-b border-neutral-100 last:border-0">
+                  {row.map((cell) => (
+                    <td class="px-4 py-3 align-top text-neutral-700">{cell}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        {dataTable.source && (
+          <p class="mt-3 text-xs leading-snug text-neutral-500">{dataTable.source}</p>
+        )}
+      </section>
+    )}
 
     <!-- FAQ Section -->
     {faq && faq.length > 0 && (
